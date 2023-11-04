@@ -1,8 +1,9 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
+const package = require("./package.json");
 const path = require( 'path' );
 
 const entry = {};
-[ 'plugin-admin', 'plugin-public', 'plugin-settings' ].forEach(
+[ 'plugin-public' ].forEach(
 	( script ) =>
 		( entry[ script ] = path.resolve(
 			process.cwd(),
@@ -20,4 +21,6 @@ module.exports = {
 		react: 'React',
 		'react-dom': 'ReactDOM',
 	},
+	plugins: [
+	]
 };

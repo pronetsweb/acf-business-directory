@@ -16,7 +16,6 @@ namespace ACF_Business_Directory\Engine;
  * Base skeleton of the plugin
  */
 class Base {
-
 	/**
 	 * @var array The settings of the plugin.
 	 */

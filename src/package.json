@@ -4,24 +4,18 @@
     "description": "",
     "author": "Zachary Tarvid-Richey <zr.public@gmail.com>",
     "files": [
-        "ajax",
         "assets",
         "backend",
-        "cli",
         "engine",
         "frontend",
         "functions",
-        "integrations",
         "internals",
-        "languages",
-        "rest",
         "templates",
         "vendor",
         "index.php",
         "LICENSE.txt",
         "acf-business-directory.php",
-        "README.txt",
-        "uninstall.php"
+        "README.txt"
     ],
     "scripts": {
         "start": "wp-scripts start",
@@ -36,8 +30,7 @@
         "packages-update": "wp-scripts packages-update",
         "plugin-zip": "wp-scripts plugin-zip",
         "postinstall": "npm run build",
-        "publish": "npm run build && npm run plugin-zip",
-        "wp-env": "wp-env start"
+        "publish": "npm run build && npm run plugin-zip"
     },
     "devDependencies": {
         "@types/babel__core": "^7.20.0",
@@ -46,7 +39,10 @@
         "@types/wordpress__block-editor": "^11.5.1",
         "@types/wordpress__blocks": "^12.5.0",
         "@wordpress/scripts": "^24.6.0",
-        "typescript": "^5.0.4"
+        "copy-webpack-plugin": "^11.0.0",
+        "mini-css-extract-plugin": "^2.7.6",
+        "typescript": "^5.0.4",
+        "webpack-watch-files-plugin": "^1.2.1"
     },
     "engines": {
         "node": ">=14.0.0",
