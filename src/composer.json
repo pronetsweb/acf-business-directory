@@ -1,0 +1,55 @@
+{
+    "name": "wpbp/wordpress-plugin-boilerplate-powered",
+    "description": "Wordpress Plugin Boilerplate with steroids!",
+    "license": "GPL-3.0-or-later",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Zachary Tarvid-Richey",
+            "email": "zr.public@gmail.com",
+            "homepage": "https://author-url.test"
+        }
+    ],
+    "homepage": "https://github.com/WPBP/WordPress-Plugin-Boilerplate-Powered",
+    "require": {
+        "php": ">=7.4",
+        "composer/installers": "1.x",
+        "decodelabs/tagged": "^0.11.9",
+        "inpsyde/wp-context": "1.3.*",
+        "micropackage/requirements": "^1.0",
+        "wpbp/debug": "1.1.*",
+        "wpdesk/wp-notice": "^3.2"
+    },
+    "require-dev": {
+        "codeatcode/codeatcs": "^1.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "1.0.0",
+        "ergebnis/composer-normalize": "^2.6",
+        "phpro/grumphp": "^1.13",
+        "szepeviktor/phpstan-wordpress": "^1.1.6"
+    },
+    "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/ayecode/wp-super-duper"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "ACF_Business_Directory\\Backend\\": "backend/",
+            "ACF_Business_Directory\\Frontend\\": "frontend/",
+            "ACF_Business_Directory\\Internals\\": "internals/",
+            "ACF_Business_Directory\\Engine\\": "engine/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "cweagans/composer-patches": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true,
+            "phpro/grumphp": true
+        }
+    }
+}

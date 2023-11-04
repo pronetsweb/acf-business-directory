@@ -1,0 +1,53 @@
+{
+  "plugin": {
+    "name": "ACF Business Directory",
+    "version": "1.0.0"
+  },
+  "author": {
+    "name": "Zachary Tarvid-Richey",
+    "email": "zr.public@gmail.com",
+    "url": "https://zachuorice.com",
+    "license": "GPL 2.0+",
+    "copyright": "2023 Zachary Tarvid-Richey"
+  },
+  "public-assets": {
+    "js": "true",
+    "css": "true"
+  },
+  "act-deact": {
+    "actdeact": "true",
+    "uninstall": "false"
+  },
+  "admin-assets": {
+    "admin-js": "false",
+    "admin-css": "false",
+    "settings-js": "false",
+    "settings-css": "false",
+    "admin-page": "false"
+  },
+  "ajax": "false",
+  "git-repo": "false",
+  "grumphp": "true",
+  "phpstan": "true",
+  "phpcs": "true",
+  "phpmd": "true",
+  "unit-test": "false",
+  "wpcli": "false",
+  "language-files": "false",
+  "libraries": [
+    "wpbp/debug",
+    "micropackage/requirements",
+    "wpdesk/wp-notice"
+  ],
+  "snippet": {
+    "backend": [
+    ],
+    "frontend": [
+      "wp-localize-script",
+      "shortcode",
+      "template-system"
+    ],
+    "system": [
+    ]
+  }
+}
