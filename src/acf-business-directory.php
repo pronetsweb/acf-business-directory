@@ -64,26 +64,50 @@ require_once ABD_PLUGIN_ROOT . 'functions/debug.php';
 
 // Add your new plugin on the wiki: https://github.com/WPBP/WordPress-Plugin-Boilerplate-Powered/wiki/Plugin-made-with-this-Boilerplate
 
-$requirements = new \Micropackage\Requirements\Requirements(
-	'ACF Business Directory',
-	array(
-		'php'            => ABD_MIN_PHP_VERSION,
-		'php_extensions' => array( 'mbstring' ),
-		'wp'             => ABD_WP_VERSION,
-		// 'plugins'            => array(
-		// array( 'file' => 'hello-dolly/hello.php', 'name' => 'Hello Dolly', 'version' => '1.5' )
-		// ),
+$requirements = array(
+	// Minimum Requirements
+	new \Micropackage\Requirements\Requirements(
+		'ACF Business Directory',
+		array(
+			'php'            => ABD_MIN_PHP_VERSION,
+			'php_extensions' => array( 'mbstring' ),
+			'wp'             => ABD_WP_VERSION,
+			'plugins'            => array(
+				array( 'file' => 'advanced-custom-fields/acf.php', 'name' => 'Advanced Custom Fields', 'version' => '6.2.2' )
+			),
+		)
+	),
+	// Ideal Requirements
+	new \Micropackage\Requirements\Requirements(
+		'ACF Business Directory',
+		array(
+			'php'            => ABD_MIN_PHP_VERSION,
+			'php_extensions' => array( 'mbstring' ),
+			'wp'             => ABD_WP_VERSION,
+			'plugins'            => array(
+				array( 'file' => 'advanced-custom-fields-pro/acf.php', 'name' => 'Advanced Custom Fields PRO', 'version' => '6.2.2' )
+			),
+		)
 	)
 );
 
-if ( ! $requirements->satisfied() ) {
-	$requirements->print_notice();
+// Find any truthy values from $requirements[i]->satisfied()
+$requirements_satisfied = array_filter(
+	array_map(
+		function( $val ) { 
+			return $val->satisfied(); 
+		}, $requirements
+	), function( $val ) { return $val == true; }
+);
 
+
+if(count($requirements_satisfied) == 0) {
+	$requirements[0]->print_notice();
+	add_action( 'admin_init', function() {
+		deactivate_plugins( plugin_basename( __FILE__ ) );
+	});
 	return;
 }
-
-
-
 
 if ( ! wp_installing() ) {
 	register_activation_hook( ABD_TEXTDOMAIN . '/' . ABD_TEXTDOMAIN . '.php', array( new \ACF_Business_Directory\Backend\ActDeact, 'activate' ) );
