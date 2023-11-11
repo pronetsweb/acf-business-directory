@@ -27,6 +27,10 @@ class Business {
 	 * @throws ValueError
 	 */
 	public function __construct( int $post_id = null ) {
+		$this->_staged_changes = [
+			'post_fields' => [],
+			'acf_fields' => []
+		];
 		if( \is_null( $post_id ) ) {
 			$this->_post = null;
 		} else {
@@ -37,15 +41,48 @@ class Business {
 		}
 	}
 
-	protected function _get_data( string $key, bool $is_acf = false, bool $is_repeater = false ) {
-		if( isset( $this->_staged_changes[$key] ) ) {
-			return '';
+	protected function _get_data( string $key, bool $is_acf = false, bool $is_repeater = false, array $subkeys = [] ) {
+		if( \isset( $this->_staged_changes[$key] ) ) {
+			return $this->_staged_changes[$key];
 		}
-		return '';
+
+		if( \is_null( $this->_post ) ) {
+			return null;
+		}
+		
+		if( !$is_acf && !$is_repeater ) {
+			if( \isset( $this->_post[$key] ) ) {
+				return $this->_post[$key];
+			}
+		}
+
+		if( $is_acf ) {
+			$value = null;
+			if( $is_repeater && \have_rows( $key ) ) {
+				$value = [];
+				while( \have_rows($key) ) {
+					\the_row();
+					$_value = [];
+					foreach( $subkeys as $subkey ) {
+						$_value[$subkey] = \get_sub_field( $subkey );
+					}
+					$value[] = $_value;
+				}
+			} else {
+				$value = \get_field( $key, $this->_post->ID );
+			}
+			return $value;
+		}
+
+		return null;
 	}
 
 	protected function _set_data( string $key, $value, bool $is_acf = false, bool $is_repeater = false ) {
-		// TODO
+		if( !$is_acf ) {
+			$this->_staged_changes['post'][$key] = $value;
+		} else {
+			$this->_staged_changes['acf'][$key] = $value;
+		}
 	}
 
 	/**
@@ -62,6 +99,22 @@ class Business {
 	 */
 	public function set_title( string $title ) {
 		return $this->_set_data( 'post_title', $title );
+	}
+
+	/**
+	 * Get the slug.
+	 * @return string
+	 */
+	public function get_slug(): string {
+		return $this->_get_data( 'post_name' );
+	}
+
+	/**
+	 * Set the slug.
+	 * @param string 	$slug
+	 */
+	public function set_slug( string $slug ) {
+		return $this->_set_data( 'post_name', $slug );
 	}
 
 	/**
@@ -165,7 +218,6 @@ class Business {
 	 * @return array
 	 */
 	public function get_hours(): array {
-		// TODO: Handle repeater field data.
 		return $this->_get_data( 'hours', true, true );
 	}
 
@@ -174,7 +226,6 @@ class Business {
 	 * @param array 	$hours
 	 */
 	public function set_hours( array $hours ) {
-		// TODO: Handle repeater field data.
 		return $this->_set_data( 'hours', $hours, true, true );
 	}
 
@@ -214,6 +265,83 @@ class Business {
 	 * Commit the staged changes to the database.
 	 */
 	public function save(): ?WP_Error {
-		// ...
+		// Basically:
+		// 1. Create $data array with [...$builtin_keys, 'meta_input' => ...$non_builtin_keys ]
+		// 2. Insert / update post, reinitialize $_post, clear staged changes.
+		// 3. Update ACF fields - tracking and returning errors if applicable.
+		// 4. Clears any staged ACF changes that succeed.
+		$builtin_keys = array(
+			'post_author',
+			'post_content',
+			'post_content_filtered',
+			'post_title',
+			'post_excerpt',
+			'post_status',
+			'post_type',
+			'comment_status',
+			'ping_status',
+			'post_password',
+			'to_ping',
+			'pinged',
+			'post_parent',
+			'menu_order',
+			'guid',
+			'import_id',
+			'context',
+			'post_date',
+			'post_date_gmt',
+		);
+
+		$post_data = \array_merge(
+			[
+				'ID' => \is_null( $this->_post ) ? 0 : $this->_post->ID,
+			],
+			\array_filter( $this->_staged_changes['post_fields'], function($key) {
+				return \in_array($key, $builtin_keys);
+			}, ARRAY_FILTER_USE_KEY ),
+			['meta_input' => \array_filter( $this->_staged_changes['post_fields'], function($key) {
+				return !\in_array($key, $builtin_keys);
+			}, ARRAY_FILTER_USE_KEY )]
+		);
+
+		\abd_log( 'SAVING POST DATA: ' . print_r( $post_data, true ) );
+
+		$post_id = \wp_insert_post( $post_data, true );
+		if( \is_wp_error( $post_id ) ) {
+			\abd_log( 'INSERT POST ERROR: ' . implode( "\r\n", $post_id->get_error_messages() ) );
+			return $post_id;
+		}
+
+		$this->_post = new \WP_Post( $post_id );
+		$this->_staged_changes['post_fields'] = [];
+		\abd_log('CLEARED STAGED POST FIELDS');
+
+		\abd_log('SAVING ACF FIELDS: ' . print_r( $this->_staged_changes['acf_fields'], true ) );
+		$errors = [];
+		foreach( $this->_staged_changes['acf_fields'] as $key => $value ) {
+			$result = \update_field( $key, $value, $this->_post->ID );
+			if( !$result ) {
+				$errors[] = $key;
+			}
+		}
+
+		$this->_staged_changes['acf_fields'] = \array_filter( $this->_staged_changes['acf_fields'], 
+			function( $key ) {
+				return \in_array( $key, $errors );
+			}, ARRAY_FILTER_USE_KEY
+		);
+
+		if( count($errors) > 0 ) {
+			$error = new \WP_Error();
+			foreach( $errors as $key ) {
+				$error->add( 0, 'Failed to update field: ' . $key );
+			}
+			\abd_log( 'INSERT POST ACF ERROR: ' . implode( "\r\n", $error->get_error_messages() ) );
+			return $error;
+		} else {
+			\abd_log('CLEARED STAGED ACF FIELDS');
+		}
+
+		return null;
 	}
 }
