@@ -27,8 +27,8 @@ class ACF_Export extends Base {
 	public function initialize() {
 		parent::initialize();
 
-		// TODO: Detect and provide alternative for regular ACF...
-		
+		// TODO: Detect and provide alternative for non-PRO ACF...
+
 		\abd_log("Initialized ACF_Export...");
 
 		\add_action( 'acf/include_fields', function() {
