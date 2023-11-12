@@ -18,8 +18,9 @@ namespace ACF_Business_Directory\Internals;
  */
 class Business {
 
-	protected ?WP_Post $_post;
+	protected ?\WP_Post $_post;
 	protected array $_staged_changes;
+	protected string $_post_type = 'business';
 
 	/**
 	 * Constructs the model using the given post ID.
@@ -42,7 +43,7 @@ class Business {
 	}
 
 	protected function _get_data( string $key, bool $is_acf = false, bool $is_repeater = false, array $subkeys = [] ) {
-		if( \isset( $this->_staged_changes[$key] ) ) {
+		if( isset( $this->_staged_changes[$key] ) ) {
 			return $this->_staged_changes[$key];
 		}
 
@@ -51,8 +52,9 @@ class Business {
 		}
 		
 		if( !$is_acf && !$is_repeater ) {
-			if( \isset( $this->_post[$key] ) ) {
-				return $this->_post[$key];
+			$vars = get_object_vars( $this->_post );
+			if( isset( $vars[$key] ) ) {
+				return $vars[$key];
 			}
 		}
 
@@ -79,10 +81,14 @@ class Business {
 
 	protected function _set_data( string $key, $value, bool $is_acf = false, bool $is_repeater = false ) {
 		if( !$is_acf ) {
-			$this->_staged_changes['post'][$key] = $value;
+			$this->_staged_changes['post_fields'][$key] = $value;
 		} else {
-			$this->_staged_changes['acf'][$key] = $value;
+			$this->_staged_changes['acf_fields'][$key] = $value;
 		}
+	}
+
+	public function get_id(): int {
+		return !is_null( $this->_post ) ? $this->_post->ID : 0;
 	}
 
 	/**
@@ -99,6 +105,22 @@ class Business {
 	 */
 	public function set_title( string $title ) {
 		return $this->_set_data( 'post_title', $title );
+	}
+
+	/**
+	 * Get the status.
+	 * @return string
+	 */
+	public function get_status(): string {
+		return $this->_get_data( 'post_status' );
+	}
+
+	/**
+	 * Set the status.
+	 * @param string 	$status
+	 */
+	public function set_status( string $status ) {
+		return $this->_set_data( 'post_status', $status );
 	}
 
 	/**
@@ -264,7 +286,7 @@ class Business {
 	/**
 	 * Commit the staged changes to the database.
 	 */
-	public function save(): ?WP_Error {
+	public function save(): ?\WP_Error {
 		// Basically:
 		// 1. Create $data array with [...$builtin_keys, 'meta_input' => ...$non_builtin_keys ]
 		// 2. Insert / update post, reinitialize $_post, clear staged changes.
@@ -275,6 +297,7 @@ class Business {
 			'post_content',
 			'post_content_filtered',
 			'post_title',
+			'post_name',
 			'post_excerpt',
 			'post_status',
 			'post_type',
@@ -295,11 +318,12 @@ class Business {
 		$post_data = \array_merge(
 			[
 				'ID' => \is_null( $this->_post ) ? 0 : $this->_post->ID,
+				'post_type' => $this->_post_type
 			],
-			\array_filter( $this->_staged_changes['post_fields'], function($key) {
+			\array_filter( $this->_staged_changes['post_fields'], function($key) use ($builtin_keys) {
 				return \in_array($key, $builtin_keys);
 			}, ARRAY_FILTER_USE_KEY ),
-			['meta_input' => \array_filter( $this->_staged_changes['post_fields'], function($key) {
+			['meta_input' => \array_filter( $this->_staged_changes['post_fields'], function($key) use ($builtin_keys) {
 				return !\in_array($key, $builtin_keys);
 			}, ARRAY_FILTER_USE_KEY )]
 		);
@@ -312,7 +336,8 @@ class Business {
 			return $post_id;
 		}
 
-		$this->_post = new \WP_Post( $post_id );
+		\abd_log('POST ID: ' . $post_id);
+		$this->_post = \get_post( $post_id );
 		$this->_staged_changes['post_fields'] = [];
 		\abd_log('CLEARED STAGED POST FIELDS');
 
@@ -326,7 +351,7 @@ class Business {
 		}
 
 		$this->_staged_changes['acf_fields'] = \array_filter( $this->_staged_changes['acf_fields'], 
-			function( $key ) {
+			function( $key ) use ($errors) {
 				return \in_array( $key, $errors );
 			}, ARRAY_FILTER_USE_KEY
 		);
