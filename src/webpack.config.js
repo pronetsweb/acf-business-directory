@@ -3,7 +3,7 @@ const package = require("./package.json");
 const path = require( 'path' );
 
 const entry = {};
-[ 'plugin-public' ].forEach(
+[ 'plugin-public', 'business-field/index' ].forEach(
 	( script ) =>
 		( entry[ script ] = path.resolve(
 			process.cwd(),
@@ -21,6 +21,4 @@ module.exports = {
 		react: 'React',
 		'react-dom': 'ReactDOM',
 	},
-	plugins: [
-	]
 };

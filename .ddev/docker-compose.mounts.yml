@@ -1,0 +1,6 @@
+services:
+  web:
+    volumes:
+      - source: ../src
+        target: /var/www/html/wp/wp-content/plugins/acf-business-directory
+        type: bind

@@ -1,0 +1,14 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "acf-business-directory/business-field",
+    "title": "Business Field",
+    "category": "text",
+    "description": "...",
+    "keywords": [ "business", "address", "map", "hours" ],
+    "version": "1.0.0",
+    "textdomain": "acf-business-directory",
+    "script": "file:./index.js",
+    "editorStyle": "file:./index.css",
+    "style": [ "file:./style.css", "business-field-style" ]
+}

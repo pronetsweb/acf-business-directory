@@ -8,9 +8,6 @@ cp --recursive wordpress/* ./
 rm -rf wordpress
 rm -f latest.zip
 
-mkdir -p ./wp-content/plugins/
-ln -s /var/www/html/src/ ./wp-content/plugins/acf-business-directory
-
 wp config create --dbname=db --dbuser=db --dbpass=db --dbhost=db
 
 wp config set WP_DEBUG true --raw
