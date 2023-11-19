@@ -42,10 +42,20 @@ class BusinessFieldBlock extends Base {
 		\abd_log( \ABD_PLUGIN_ROOT );
 
 		\abd_log( 'Registering Block: ' . $json );
-		$result = \register_block_type( $json );
+                $result = \register_block_type( $json,
+                        [
+                            'render_callback' => [ $this, 'render' ]
+                        ]);
 		if( $result === false ) {
 			\abd_log( 'FAILED!' );
 		}
 	}
+
+        public function render( $block_attributes, $content ) {
+            ob_start();
+            var_dump( $block_attributes );
+            var_dump( $content );
+            return ob_get_clean();
+        }
 
 }
