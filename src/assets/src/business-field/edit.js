@@ -40,6 +40,7 @@ export default function Edit( { attributes, setAttributes } ) {
             } );
         }
 	return (
+            <>
             <InspectorControls key="setting">
                 <SelectControl
                     value={ attributes.select_field }
@@ -58,5 +59,6 @@ export default function Edit( { attributes, setAttributes } ) {
                             attributes={ blockProps.attributes }
                     />
             </div>
+            </>
 	);
 }

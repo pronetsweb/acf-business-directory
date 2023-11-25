@@ -10,5 +10,13 @@
     "textdomain": "acf-business-directory",
     "script": "file:./index.js",
     "editorStyle": "file:./index.css",
-    "style": [ "file:./style.css", "business-field-style" ]
+    "style": [ "file:./style.css", "business-field-style" ],
+    "attributes": {
+        "select_field": {
+            "enum": [ "address", "hours", "map", "photos" ],
+            "source": "attribute",
+            "selector": "div.field-content",
+            "attribute": "data-field"
+        }
+    }
 }

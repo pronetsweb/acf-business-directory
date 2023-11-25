@@ -1,13 +1,97 @@
 /******/ (function() { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./assets/src/business-field/edit.js":
 /*!*******************************************!*\
   !*** ./assets/src/business-field/edit.js ***!
   \*******************************************/
-/***/ (function() {
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: /var/www/html/wp/wp-content/plugins/acf-business-directory/assets/src/business-field/edit.js: Adjacent JSX elements must be wrapped in an enclosing tag. Did you want a JSX fragment <>...</>? (49:12)\n\n\u001b[0m \u001b[90m 47 |\u001b[39m                 \u001b[33m/\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 48 |\u001b[39m             \u001b[33m<\u001b[39m\u001b[33m/\u001b[39m\u001b[33mInspectorControls\u001b[39m\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 49 |\u001b[39m             \u001b[33m<\u001b[39m\u001b[33mdiv\u001b[39m { \u001b[33m...\u001b[39mblockProps }\u001b[33m>\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m    |\u001b[39m             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 50 |\u001b[39m                     \u001b[33m<\u001b[39m\u001b[33mServerSideRender\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 51 |\u001b[39m                             block\u001b[33m=\u001b[39m\u001b[32m\"acf-business-directory/business-field\"\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 52 |\u001b[39m                             attributes\u001b[33m=\u001b[39m{ blockProps\u001b[33m.\u001b[39mattributes }\u001b[0m\n    at constructor (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:356:19)\n    at JSXParserMixin.raise (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:3223:19)\n    at JSXParserMixin.jsxParseElementAt (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:6911:18)\n    at JSXParserMixin.jsxParseElement (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:6920:17)\n    at JSXParserMixin.parseExprAtom (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:6932:19)\n    at JSXParserMixin.parseExprSubscripts (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10862:23)\n    at JSXParserMixin.parseUpdate (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10845:21)\n    at JSXParserMixin.parseMaybeUnary (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10821:23)\n    at JSXParserMixin.parseMaybeUnaryOrPrivate (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10659:61)\n    at JSXParserMixin.parseExprOps (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10664:23)\n    at JSXParserMixin.parseMaybeConditional (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10641:23)\n    at JSXParserMixin.parseMaybeAssign (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10602:21)\n    at /var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10572:39\n    at JSXParserMixin.allowInAnd (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12289:12)\n    at JSXParserMixin.parseMaybeAssignAllowIn (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10572:17)\n    at JSXParserMixin.parseParenAndDistinguishExpression (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:11504:28)\n    at JSXParserMixin.parseExprAtom (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:11142:23)\n    at JSXParserMixin.parseExprAtom (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:6937:20)\n    at JSXParserMixin.parseExprSubscripts (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10862:23)\n    at JSXParserMixin.parseUpdate (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10845:21)\n    at JSXParserMixin.parseMaybeUnary (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10821:23)\n    at JSXParserMixin.parseMaybeUnaryOrPrivate (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10659:61)\n    at JSXParserMixin.parseExprOps (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10664:23)\n    at JSXParserMixin.parseMaybeConditional (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10641:23)\n    at JSXParserMixin.parseMaybeAssign (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10602:21)\n    at JSXParserMixin.parseExpressionBase (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10556:23)\n    at /var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10552:39\n    at JSXParserMixin.allowInAnd (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12284:16)\n    at JSXParserMixin.parseExpression (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:10552:17)\n    at JSXParserMixin.parseReturnStatement (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13008:28)\n    at JSXParserMixin.parseStatementContent (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12626:21)\n    at JSXParserMixin.parseStatementLike (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12593:17)\n    at JSXParserMixin.parseStatementListItem (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12573:17)\n    at JSXParserMixin.parseBlockOrModuleBlockBody (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13194:61)\n    at JSXParserMixin.parseBlockBody (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13187:10)\n    at JSXParserMixin.parseBlock (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13175:10)\n    at JSXParserMixin.parseFunctionBody (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:11940:24)\n    at JSXParserMixin.parseFunctionBodyAndFinish (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:11926:10)\n    at /var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13323:12\n    at JSXParserMixin.withSmartMixTopicForbiddingContext (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12266:14)\n    at JSXParserMixin.parseFunction (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13322:10)\n    at JSXParserMixin.parseExportDefaultExpression (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13809:19)\n    at JSXParserMixin.parseExport (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13735:25)\n    at JSXParserMixin.parseStatementContent (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12720:27)\n    at JSXParserMixin.parseStatementLike (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12593:17)\n    at JSXParserMixin.parseModuleItem (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12570:17)\n    at JSXParserMixin.parseBlockOrModuleBlockBody (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13194:36)\n    at JSXParserMixin.parseBlockBody (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:13187:10)\n    at JSXParserMixin.parseProgram (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12469:10)\n    at JSXParserMixin.parseTopLevel (/var/www/html/wp/wp-content/plugins/acf-business-directory/node_modules/@babel/parser/lib/index.js:12459:25)");
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ Edit; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/server-side-render */ "@wordpress/server-side-render");
+/* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./editor.scss */ "./assets/src/business-field/editor.scss");
+
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ */
+
+
+
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ */
+
+
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * Those files can contain any CSS code that gets applied to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @return {WPElement} Element to render.
+ */
+function Edit({
+  attributes,
+  setAttributes
+}) {
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
+  const onChangeField = new_value => {
+    setAttributes({
+      select_field: new_value
+    });
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
+    key: "setting"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    value: attributes.select_field,
+    onChange: onChangeField,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Address', 'acf-business-directory'),
+      value: 'address'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Hours', 'acf-business-directory'),
+      value: 'hours'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Map', 'acf-business-directory'),
+      value: 'map'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Gallery', 'acf-business-directory'),
+      value: 'photos'
+    }]
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ...blockProps
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
+    block: "acf-business-directory/business-field",
+    attributes: blockProps.attributes
+  })));
+}
 
 /***/ }),
 
@@ -17,7 +101,6 @@ throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index
   \********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
@@ -70,7 +153,6 @@ __webpack_require__.r(__webpack_exports__);
   \*******************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ save; }
@@ -105,13 +187,24 @@ function save() {
 
 /***/ }),
 
+/***/ "./assets/src/business-field/editor.scss":
+/*!***********************************************!*\
+  !*** ./assets/src/business-field/editor.scss ***!
+  \***********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./assets/src/business-field/style.scss":
 /*!**********************************************!*\
   !*** ./assets/src/business-field/style.scss ***!
   \**********************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
-"use strict";
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
@@ -124,7 +217,6 @@ __webpack_require__.r(__webpack_exports__);
   \************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["React"];
 
 /***/ }),
@@ -135,7 +227,6 @@ module.exports = window["React"];
   \*************************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["blockEditor"];
 
 /***/ }),
@@ -146,8 +237,37 @@ module.exports = window["wp"]["blockEditor"];
   \********************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "@wordpress/server-side-render":
+/*!******************************************!*\
+  !*** external ["wp","serverSideRender"] ***!
+  \******************************************/
+/***/ (function(module) {
+
+module.exports = window["wp"]["serverSideRender"];
 
 /***/ }),
 
@@ -157,7 +277,6 @@ module.exports = window["wp"]["blocks"];
   \**********************************************/
 /***/ (function(module) {
 
-"use strict";
 module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"acf-business-directory/business-field","title":"Business Field","category":"text","description":"...","keywords":["business","address","map","hours"],"version":"1.0.0","textdomain":"acf-business-directory","script":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style.css","business-field-style"],"attributes":{"select_field":{"enum":["address","hours","map","photos"],"source":"attribute","selector":"div.field-content","attribute":"data-field"}}}');
 
 /***/ })
