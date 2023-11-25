@@ -58,7 +58,9 @@ __webpack_require__.r(__webpack_exports__);
  * @return {WPElement} Element to render.
  */
 function Edit({
-  attributes,
+  attributes: {
+    select_field
+  },
   setAttributes
 }) {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
@@ -69,8 +71,12 @@ function Edit({
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
     key: "setting"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+    title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Field Settings', 'acf-business-directory'),
+    initialOpen: true
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-    value: attributes.select_field,
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Select Field', 'acf-business-directory'),
+    value: select_field,
     onChange: onChangeField,
     options: [{
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Address', 'acf-business-directory'),
@@ -85,7 +91,7 @@ function Edit({
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Gallery', 'acf-business-directory'),
       value: 'photos'
     }]
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
     block: "acf-business-directory/business-field",
@@ -142,7 +148,10 @@ __webpack_require__.r(__webpack_exports__);
   /**
    * @see ./edit.js
    */
-  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"]
+  edit: _edit__WEBPACK_IMPORTED_MODULE_2__["default"],
+  save: () => {
+    return null;
+  }
 });
 
 /***/ }),
@@ -277,7 +286,7 @@ module.exports = window["wp"]["serverSideRender"];
   \**********************************************/
 /***/ (function(module) {
 
-module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"acf-business-directory/business-field","title":"Business Field","category":"text","description":"...","keywords":["business","address","map","hours"],"version":"1.0.0","textdomain":"acf-business-directory","script":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style.css","business-field-style"],"attributes":{"select_field":{"enum":["address","hours","map","photos"],"source":"attribute","selector":"div.field-content","attribute":"data-field"}}}');
+module.exports = JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"acf-business-directory/business-field","title":"Business Field","category":"text","description":"...","keywords":["business","address","map","hours"],"version":"1.0.0","textdomain":"acf-business-directory","script":"file:./index.js","editorStyle":"file:./index.css","style":["file:./style.css","business-field-style"],"attributes":{"select_field":{"type":"string","enum":["address","hours","map","photos"]}}}');
 
 /***/ })
 

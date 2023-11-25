@@ -13,10 +13,8 @@
     "style": [ "file:./style.css", "business-field-style" ],
     "attributes": {
         "select_field": {
-            "enum": [ "address", "hours", "map", "photos" ],
-            "source": "attribute",
-            "selector": "div.field-content",
-            "attribute": "data-field"
+            "type": "string",
+            "enum": [ "address", "hours", "map", "photos" ]
         }
     }
 }

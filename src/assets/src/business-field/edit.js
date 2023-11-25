@@ -4,7 +4,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 import { __ } from '@wordpress/i18n';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, PanelRow, PanelBody } from '@wordpress/components';
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -32,7 +32,7 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( { attributes, setAttributes } ) {
+export default function Edit( { attributes: { select_field }, setAttributes } ) {
         const blockProps = useBlockProps();
         const onChangeField = ( new_value ) => {
             setAttributes( {
@@ -42,16 +42,19 @@ export default function Edit( { attributes, setAttributes } ) {
 	return (
             <>
             <InspectorControls key="setting">
-                <SelectControl
-                    value={ attributes.select_field }
-                    onChange={ onChangeField }
-                    options={[
-                        { label: __('Address', 'acf-business-directory'), value: 'address' },
-                        { label: __('Hours', 'acf-business-directory'), value: 'hours' },
-                        { label: __('Map', 'acf-business-directory'), value: 'map' },
-                        { label: __('Gallery', 'acf-business-directory'), value: 'photos' },
-                    ]}
-                />
+                <PanelBody title={ __('Field Settings', 'acf-business-directory') } initialOpen={ true } >
+                        <SelectControl
+                            label={ __('Select Field', 'acf-business-directory') }
+                            value={ select_field }
+                            onChange={ onChangeField }
+                            options={[
+                                { label: __('Address', 'acf-business-directory'), value: 'address' },
+                                { label: __('Hours', 'acf-business-directory'), value: 'hours' },
+                                { label: __('Map', 'acf-business-directory'), value: 'map' },
+                                { label: __('Gallery', 'acf-business-directory'), value: 'photos' },
+                            ]}
+                        />
+                </PanelBody>
             </InspectorControls>
             <div { ...blockProps }>
                     <ServerSideRender

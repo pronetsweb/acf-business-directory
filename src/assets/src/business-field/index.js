@@ -34,4 +34,7 @@ registerBlockType( metadata.name, {
 	 * @see ./edit.js
 	 */
 	edit: Edit,
+        save: () => {
+            return null;
+        }
 } );
