@@ -48,7 +48,7 @@ class Business {
 		}
 
 		if( \is_null( $this->_post ) ) {
-			return null;
+			return '';
 		}
 		
 		if( !$is_acf && !$is_repeater ) {
@@ -59,7 +59,7 @@ class Business {
 		}
 
 		if( $is_acf ) {
-			$value = null;
+			$value = '';
 			if( $is_repeater && \have_rows( $key ) ) {
 				$value = [];
 				while( \have_rows($key) ) {
@@ -73,10 +73,10 @@ class Business {
 			} else {
 				$value = \get_field( $key, $this->_post->ID );
 			}
-			return $value;
+			return !is_null( $value ) ? $value : '';
 		}
 
-		return null;
+		return '';
 	}
 
 	protected function _set_data( string $key, $value, bool $is_acf = false, bool $is_repeater = false ) {
@@ -223,8 +223,12 @@ class Business {
 	 * Get the state.
 	 * @return string
 	 */
-	public function get_state(): string {
-		return $this->_get_data( 'state', true );
+	public function get_state( $full_label = false ): string {
+                if( !$full_label ) {
+                    return $this->_get_data( 'state', true )['value'];
+                } else {
+                    return $this->_get_data( 'state', true )['label'];
+                }
 	}
 
 	/**
@@ -233,6 +237,22 @@ class Business {
 	 */
 	public function set_state( string $state ) {
 		return $this->_set_data( 'state', $state, true );
+	}
+
+	/**
+	 * Get the postcode.
+	 * @return string
+	 */
+	public function get_postcode(): string {
+		return $this->_get_data( 'postcode', true );
+	}
+
+	/**
+	 * Set the postcode.
+	 * @param string 	$postcode
+	 */
+	public function set_postcode( string $postcode ) {
+		return $this->_set_data( 'postcode', $postcode, true );
 	}
 
 	/**

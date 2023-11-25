@@ -95,7 +95,9 @@ function Edit({
     ...blockProps
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_4___default()), {
     block: "acf-business-directory/business-field",
-    attributes: blockProps.attributes
+    attributes: {
+      select_field: select_field
+    }
   })));
 }
 

@@ -59,7 +59,7 @@ export default function Edit( { attributes: { select_field }, setAttributes } ) 
             <div { ...blockProps }>
                     <ServerSideRender
                             block="acf-business-directory/business-field"
-                            attributes={ blockProps.attributes }
+                            attributes={ { select_field: select_field } }
                     />
             </div>
             </>
