@@ -84,6 +84,36 @@ class BusinessFieldBlock extends Base {
 
         protected function render_hours() {
             $business = $this->get_business();
+            $hours_sets = $business->get_hours();
+
+            // Sort and group the hours for display, Mo - Su.
+            $sorted_hours = [];
+            foreach( $hours_sets as $hours_set ) {
+                if( $hours_set['24_hours'] ) {
+                    foreach( $hours_set['days'] as $day ) {
+                        $sorted_hours[$day['value']] = [
+                            'all_day' => true,
+                            'start' => [],
+                            'end' => []
+                        ];
+                    }
+                } else {
+                    foreach( $hours_set['days'] as $day ) {
+                        if( !isset( $sorted_hours[$day['value']] ) ) {
+                            $sorted_hours[$day['value']] = [
+                                'all_day' => false,
+                                'start' => [],
+                                'end' => []
+                            ];
+                        }
+
+                        if( !$sorted_hours[$day['value']]['all_day'] ) {
+                            $sorted_hours[$day['value']]['start'][] = $hours_set['start'];
+                            $sorted_hours[$day['value']]['end'][] = $hours_set['end'];
+                        }
+                    } 
+                }
+            }
             include $this->template_file( 'business-hours.php' );
         }
 
