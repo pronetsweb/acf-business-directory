@@ -87,7 +87,16 @@ class BusinessFieldBlock extends Base {
             $hours_sets = $business->get_hours();
 
             // Sort and group the hours for display, Mo - Su.
-            $sorted_hours = [];
+            $sorted_hours = [
+                'Mo' => [],
+                'Tu' => [],
+                'We' => [],
+                'Thu' => [],
+                'Fri' => [],
+                'Sat' => [],
+                'Sun' => []
+            ];
+
             foreach( $hours_sets as $hours_set ) {
                 if( $hours_set['24_hours'] ) {
                     foreach( $hours_set['days'] as $day ) {
@@ -99,7 +108,7 @@ class BusinessFieldBlock extends Base {
                     }
                 } else {
                     foreach( $hours_set['days'] as $day ) {
-                        if( !isset( $sorted_hours[$day['value']] ) ) {
+                        if( !isset( $sorted_hours[$day['value']] ) || $sorted_hours[$day['value']] == [] ) {
                             $sorted_hours[$day['value']] = [
                                 'all_day' => false,
                                 'start' => [],
