@@ -94,8 +94,8 @@ $requirements = array(
 // Find any truthy values from $requirements[i]->satisfied()
 $requirements_satisfied = array_filter(
 	array_map(
-		function( $val ) { 
-			return $val->satisfied(); 
+		function( $val ) {
+			return $val->satisfied();
 		}, $requirements
 	), function( $val ) { return $val == true; }
 );
@@ -107,6 +107,13 @@ if(count($requirements_satisfied) == 0) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 	});
 	return;
+}
+
+if( defined('ACF_BD_GOOGLE_MAPS_API_KEY') ) {
+	function acf_bd_google_maps_key() {
+		acf_update_setting('google_api_key', ACF_BD_GOOGLE_MAPS_API_KEY);
+	}
+	add_action('acf/init', 'acf_bd_google_maps_key');
 }
 
 if ( ! wp_installing() ) {
