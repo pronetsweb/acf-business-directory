@@ -1,7 +1,7 @@
 <div class="hours">
     <dl class="hours-list">
 <?php foreach( $sorted_hours as $day => $_hours ) : ?>
-        <?php 
+        <?php
             if( $_hours == [] ) {
                 $hours = __('Closed', 'acf-business-directory');
             } else {

@@ -13,11 +13,11 @@
     <?php endif; ?>
 
     <?php if( $business->get_state() != '' ) : ?>
-    <span itemprop="addressRegion"><?php echo esc_html( $business->get_state() ); ?></span> 
+    <span itemprop="addressRegion"><?php echo esc_html( $business->get_state() ); ?></span>
     <?php endif; ?>
 
     <?php if( $business->get_postcode() != '' ) : ?>
-    <span itemprop="postalCode"><?php echo esc_html( $business->get_postcode() ); ?></span> 
+    <span itemprop="postalCode"><?php echo esc_html( $business->get_postcode() ); ?></span>
     <?php endif; ?>
 
 </div>

@@ -2,7 +2,7 @@
 <?php // TODO: Move to own script / styles that are dynamically loaded. ?>
 <?php if(!ACF_Business_Directory\Internals\BusinessFieldBlock::is_map_script_initialized()): ?>
 <style type="text/css">
-.acf-map {
+.acf-bd-map {
     width: 100%;
     height: 400px;
     border: #ccc solid 1px;
@@ -10,7 +10,7 @@
 }
 
 // Fixes potential theme css conflict.
-.acf-map img {
+.acf-bd-map img {
    max-width: inherit !important;
 }
 </style>
@@ -110,7 +110,7 @@
 
 	// Render maps on page load.
 	addEventListener("DOMContentLoaded", function() {
-		document.querySelectorAll('.acf-map').forEach(function(mapElement){
+		document.querySelectorAll('.acf-bd-map').forEach(function(mapElement){
 			var map = initMap( mapElement );
 		});
 	});

@@ -172,7 +172,7 @@ class BusinessFieldBlock extends Base {
 				break;
 
 		}
-		return ob_get_clean();
+		return '<div class="wp-block-business-field wp-block-business-field-' . $block_attributes['select_field'] . '">' . ob_get_clean() . '</div>';
 	}
 
 }
