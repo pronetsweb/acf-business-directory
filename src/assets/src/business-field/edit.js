@@ -39,6 +39,7 @@ export default function Edit( { attributes: { select_field }, setAttributes } ) 
                 select_field: new_value
             } );
         }
+	// TODO: Support editing / adding marker info (e.g. excerpt)
 	return (
             <>
             <InspectorControls key="setting">

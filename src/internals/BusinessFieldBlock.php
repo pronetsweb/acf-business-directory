@@ -20,144 +20,159 @@ use ACF_Business_Directory\Internals\Business;
  */
 class BusinessFieldBlock extends Base {
 
-        protected ?Business $_business = null;
+	protected static bool $_map_script_initialized = false;
+	protected ?Business $_business = null;
 
 	/**
 	 * Initialize the class.
 	 *
 	 * @return void|bool
-	 */
+	*/
 	public function initialize() {
 		parent::initialize();
 
 		\add_action( 'init', array( $this, 'register_block' ) );
 	}
 
-        public function set_business( Business $business ) {
-            $this->_business = $business;
-        }
+	public static function is_map_script_initialized() {
+		return self::$_map_script_initialized;
+	}
 
-        public function get_business() {
-            if( is_null( $this->_business ) ) {
-                if( get_the_ID() != false ) {
-                    $this->_business = new Business( get_the_ID() );
-                }
-            }
-            return $this->_business;
-        }
+	public static function set_map_script_initialized() {
+		self::$_map_script_initialized = true;
+	}
+
+	public function set_business( Business $business ) {
+		$this->_business = $business;
+	}
+
+	public function get_business() {
+		if( is_null( $this->_business ) ) {
+			if( get_the_ID() != false ) {
+				$this->_business = new Business( get_the_ID() );
+			}
+		}
+		return $this->_business;
+	}
 
 	/**
 	 * Registers and enqueue the block assets
 	 *
 	 * @since 1.0.0
 	 * @return void
-	 */
+	*/
 	public function register_block() {
 		// Register the block by passing the location of block.json to register_block_type.
 		$json = \ABD_PLUGIN_ROOT . 'assets/build/business-field';
 		\abd_log( \ABD_PLUGIN_ROOT );
 
 		\abd_log( 'Registering Block: ' . $json );
-                $result = \register_block_type( $json,
-                        [
-                            'render_callback' => [ $this, 'render' ]
-                        ]);
+		$result = \register_block_type( $json,
+			[
+				'render_callback' => [ $this, 'render' ],
+				'title' => __('Business Field', 'acf-business-directory')
+			]);
 		if( $result === false ) {
 			\abd_log( 'FAILED!' );
 		}
 	}
 
-        protected function template_file( $filename ) {
-            $theme_file = get_stylesheet_directory() . '/acf-business-directory/' . $filename;
-            $builtin_file = \ABD_PLUGIN_ROOT . 'templates/' . $filename;
-            if( is_file( $theme_file ) ) {
-                return $theme_file;
-            } else {
-                return $builtin_file;
-            }
-        }
+	/* Check if we're rendering in Gutenberg editor - https://wordpress.stackexchange.com/a/343592 */
+	protected function is_in_editor() {
+		return defined( 'REST_REQUEST' ) && REST_REQUEST;
+	}
 
-        protected function render_address() {
-            $business = $this->get_business();
-            include $this->template_file( 'business-address.php' );
-        }
+	protected function template_file( $filename ) {
+		$theme_file = get_stylesheet_directory() . '/acf-business-directory/' . $filename;
+		$builtin_file = \ABD_PLUGIN_ROOT . 'templates/' . $filename;
+		if( is_file( $theme_file ) ) {
+			return $theme_file;
+		} else {
+			return $builtin_file;
+		}
+	}
 
-        protected function render_hours() {
-            $business = $this->get_business();
-            $hours_sets = $business->get_hours();
+	protected function render_address() {
+		$business = $this->get_business();
+		include $this->template_file( 'business-address.php' );
+	}
 
-            // Sort and group the hours for display, Mo - Su.
-            $sorted_hours = [
-                'Mo' => [],
-                'Tu' => [],
-                'We' => [],
-                'Thu' => [],
-                'Fri' => [],
-                'Sat' => [],
-                'Sun' => []
-            ];
+	protected function render_hours() {
+		$business = $this->get_business();
+		$hours_sets = $business->get_hours();
 
-            foreach( $hours_sets as $hours_set ) {
-                if( $hours_set['24_hours'] ) {
-                    foreach( $hours_set['days'] as $day ) {
-                        $sorted_hours[$day['value']] = [
-                            'all_day' => true,
-                            'start' => [],
-                            'end' => []
-                        ];
-                    }
-                } else {
-                    foreach( $hours_set['days'] as $day ) {
-                        if( !isset( $sorted_hours[$day['value']] ) || $sorted_hours[$day['value']] == [] ) {
-                            $sorted_hours[$day['value']] = [
-                                'all_day' => false,
-                                'start' => [],
-                                'end' => []
-                            ];
-                        }
+		// Sort and group the hours for display, Mo - Su.
+		$sorted_hours = [
+			'Mo' => [],
+			'Tu' => [],
+			'We' => [],
+			'Thu' => [],
+			'Fri' => [],
+			'Sat' => [],
+			'Sun' => []
+		];
 
-                        if( !$sorted_hours[$day['value']]['all_day'] ) {
-                            $sorted_hours[$day['value']]['start'][] = $hours_set['start'];
-                            $sorted_hours[$day['value']]['end'][] = $hours_set['end'];
-                        }
-                    } 
-                }
-            }
-            include $this->template_file( 'business-hours.php' );
-        }
+		foreach( $hours_sets as $hours_set ) {
+			if( $hours_set['24_hours'] ) {
+				foreach( $hours_set['days'] as $day ) {
+					$sorted_hours[$day['value']] = [
+						'all_day' => true,
+						'start' => [],
+						'end' => []
+					];
+				}
+			} else {
+				foreach( $hours_set['days'] as $day ) {
+					if( !isset( $sorted_hours[$day['value']] ) || $sorted_hours[$day['value']] == [] ) {
+						$sorted_hours[$day['value']] = [
+							'all_day' => false,
+							'start' => [],
+							'end' => []
+						];
+					}
 
-        protected function render_map() {
-            $business = $this->get_business();
-            include $this->template_file( 'business-map.php' );
-        }
+					if( !$sorted_hours[$day['value']]['all_day'] ) {
+						$sorted_hours[$day['value']]['start'][] = $hours_set['start'];
+						$sorted_hours[$day['value']]['end'][] = $hours_set['end'];
+					}
+				}
+			}
+		}
+		include $this->template_file( 'business-hours.php' );
+	}
 
-        protected function render_photos() {
-            $business = $this->get_business();
-            include $this->template_file( 'business-photos.php' );
-        }
+	protected function render_map() {
+		$business = $this->get_business();
+		include $this->template_file( 'business-map.php' );
+	}
 
-        public function render( $block_attributes, $content ) {
-            if( !isset( $block_attributes['select_field'] ) || empty( $block_attributes['select_field'] ) ) {
-                $block_attributes['select_field'] = 'address';
-            }
+	protected function render_photos() {
+		$business = $this->get_business();
+		include $this->template_file( 'business-photos.php' );
+	}
 
-            ob_start();
-            switch( $block_attributes['select_field'] ) {
-            case 'address':
-                $this->render_address();
-                break;
-            case 'hours':
-                $this->render_hours();
-                break;
-            case 'map':
-                $this->render_map();
-                break;
-            case 'photos':
-                $this->render_photos();
-                break;
+	public function render( $block_attributes, $content ) {
+		if( !isset( $block_attributes['select_field'] ) || empty( $block_attributes['select_field'] ) ) {
+			$block_attributes['select_field'] = 'address';
+		}
 
-            }
-            return ob_get_clean();
-        }
+		ob_start();
+		switch( $block_attributes['select_field'] ) {
+			case 'address':
+				$this->render_address();
+				break;
+			case 'hours':
+				$this->render_hours();
+				break;
+			case 'map':
+				$this->render_map();
+				break;
+			case 'photos':
+				$this->render_photos();
+				break;
+
+		}
+		return ob_get_clean();
+	}
 
 }
