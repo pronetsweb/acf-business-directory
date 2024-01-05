@@ -1,6 +1,6 @@
 <?php if( defined('ACF_BD_GOOGLE_MAPS_API_KEY') && defined('ACF_BD_GOOGLE_MAPS_BROWSER_API_KEY') ) : ?>
 	<?php if ( $this->is_in_editor() ): ?>
-		<p>Map</p>
+		<p>Map Will Appear Here.</p>
 	<?php else: ?>
 		<?php require_once "helpers/google-maps-init.php"; ?>
 		<?php
@@ -13,6 +13,7 @@
 		$marker_html = ob_get_clean();
 
 		if( $location ): ?>
+			<?php echo $content; ?>
 			<div class="acf-bd-map" data-zoom="16">
 				<div class="marker" data-lat="<?php echo esc_attr($location['lat']); ?>" data-lng="<?php echo esc_attr($location['lng']); ?>">
 					<?php echo apply_filters('acf_bd_business_map_marker_html', $marker_html); ?>

@@ -1,3 +1,5 @@
+<?php if(!$has_hours) { return; } ?>
+<?php echo $content; ?>
 <div class="hours">
     <dl class="hours-list">
 <?php foreach( $sorted_hours as $day => $_hours ) : ?>

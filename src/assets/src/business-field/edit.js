@@ -4,6 +4,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
  */
 import { __ } from '@wordpress/i18n';
+import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
 import { SelectControl, PanelRow, PanelBody } from '@wordpress/components';
 
 /**
@@ -49,6 +50,9 @@ export default function Edit( { attributes: { select_field }, setAttributes } ) 
                             value={ select_field }
                             onChange={ onChangeField }
                             options={[
+                                { label: __('Email', 'acf-business-directory'), value: 'email' },
+                                { label: __('Phone', 'acf-business-directory'), value: 'phone' },
+                                { label: __('Website', 'acf-business-directory'), value: 'website' },
                                 { label: __('Address', 'acf-business-directory'), value: 'address' },
                                 { label: __('Hours', 'acf-business-directory'), value: 'hours' },
                                 { label: __('Map', 'acf-business-directory'), value: 'map' },
@@ -58,6 +62,7 @@ export default function Edit( { attributes: { select_field }, setAttributes } ) 
                 </PanelBody>
             </InspectorControls>
             <div { ...blockProps }>
+					<InnerBlocks />
                     <ServerSideRender
                             block="acf-business-directory/business-field"
                             attributes={ { select_field: select_field } }

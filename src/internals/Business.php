@@ -26,7 +26,7 @@ class Business {
 		 * Constructs the model using the given post ID.
 		 * @param ?int          $post_id        The ID of the post to retrieve data from, if null prepares to create a new post.
 		 * @throws ValueError
-		 */
+	*/
 	public function __construct( int $post_id = null ) {
 		$this->_staged_changes = [
 			'post_fields' => [],
@@ -94,7 +94,7 @@ class Business {
 	/**
 		 * Get the title.
 		 * @return string
-		 */
+	*/
 	public function get_title(): string {
 		return $this->_get_data( 'post_title' );
 	}
@@ -102,7 +102,7 @@ class Business {
 	/**
 		 * Set the title.
 		 * @param string        $title
-		 */
+	*/
 	public function set_title( string $title ) {
 		return $this->_set_data( 'post_title', $title );
 	}
@@ -110,7 +110,7 @@ class Business {
 	/**
 		 * Get the status.
 		 * @return string
-		 */
+	*/
 	public function get_status(): string {
 		return $this->_get_data( 'post_status' );
 	}
@@ -118,7 +118,7 @@ class Business {
 	/**
 		 * Set the status.
 		 * @param string        $status
-		 */
+	*/
 	public function set_status( string $status ) {
 		return $this->_set_data( 'post_status', $status );
 	}
@@ -126,7 +126,7 @@ class Business {
 	/**
 		 * Get the slug.
 		 * @return string
-		 */
+	*/
 	public function get_slug(): string {
 		return $this->_get_data( 'post_name' );
 	}
@@ -134,7 +134,7 @@ class Business {
 	/**
 		 * Set the slug.
 		 * @param string        $slug
-		 */
+	*/
 	public function set_slug( string $slug ) {
 		return $this->_set_data( 'post_name', $slug );
 	}
@@ -142,7 +142,7 @@ class Business {
 	/**
 		 * Get the content.
 		 * @return string
-		 */
+	*/
 	public function get_content(): string {
 		return $this->_get_data( 'post_content' );
 	}
@@ -150,7 +150,7 @@ class Business {
 	/**
 		 * Set the content.
 		 * @param string        $content
-		 */
+	*/
 	public function set_content( string $content ) {
 		return $this->_set_data( 'post_content', $content );
 	}
@@ -158,7 +158,7 @@ class Business {
 	/**
 		 * Get the excerpt.
 		 * @return string
-		 */
+	*/
 	public function get_excerpt(): string {
 		return $this->_get_data( 'post_excerpt' );
 	}
@@ -166,15 +166,63 @@ class Business {
 	/**
 		 * Set the excerpt.
 		 * @param string        $excerpt
-		 */
+	*/
 	public function set_excerpt( string $excerpt ) {
 		return $this->_set_data( 'post_excerpt', $excerpt );
 	}
 
 	/**
+		 * Get the email address.
+		 * @return string
+	*/
+	public function get_email(): string {
+		return $this->_get_data( 'email', true );
+	}
+
+	/**
+		 * Set the email address.
+		 * @param string        $email
+	*/
+	public function set_email( string $email ) {
+		return $this->_set_data( 'email', $email, true );
+	}
+
+	/**
+		 * Get the phone number.
+		 * @return string
+	*/
+	public function get_phone(): string {
+		return $this->_get_data( 'phone', true );
+	}
+
+	/**
+		 * Set the phone number.
+		 * @param string        $phone
+	*/
+	public function set_phone( string $phone ) {
+		return $this->_set_data( 'phone', $phone, true );
+	}
+
+	/**
+		 * Get the website URL.
+		 * @return string
+	*/
+	public function get_website(): string {
+		return $this->_get_data( 'website', true );
+	}
+
+	/**
+		 * Set the website URL.
+		 * @param string        $website
+	*/
+	public function set_website( string $website ) {
+		return $this->_set_data( 'website', $website, true );
+	}
+
+	/**
 		 * Get the address_line_1.
 		 * @return string
-		 */
+	*/
 	public function get_address_line_1(): string {
 		return $this->_get_data( 'address_line_1', true );
 	}
@@ -182,7 +230,7 @@ class Business {
 	/**
 		 * Set the address_line_1.
 		 * @param string        $address_line_1
-		 */
+	*/
 	public function set_address_line_1( string $address_line_1 ) {
 		return $this->_set_data( 'address_line_1', $address_line_1, true );
 	}
@@ -190,7 +238,7 @@ class Business {
 	/**
 		 * Get the address_line_2.
 		 * @return string
-		 */
+	*/
 	public function get_address_line_2(): string {
 		return $this->_get_data( 'address_line_2', true );
 	}
@@ -198,7 +246,7 @@ class Business {
 	/**
 		 * Set the address_line_2.
 		 * @param string        $address_line_2
-		 */
+	*/
 	public function set_address_line_2( string $address_line_2 ) {
 		return $this->_set_data( 'address_line_2', $address_line_2, true );
 	}
@@ -206,7 +254,7 @@ class Business {
 	/**
 		 * Get the city.
 		 * @return string
-		 */
+	*/
 	public function get_city(): string {
 		return $this->_get_data( 'city', true, true );
 	}
@@ -214,7 +262,7 @@ class Business {
 	/**
 		 * Set the city.
 		 * @param string        $city
-		 */
+	*/
 	public function set_city( string $city ) {
 		return $this->_set_data( 'city', $city, true );
 	}
@@ -222,7 +270,7 @@ class Business {
 	/**
 		 * Get the state.
 		 * @return string
-		 */
+	*/
 	public function get_state( $full_label = false ): string {
 		$data = $this->_get_data( 'state', true );
 
@@ -240,7 +288,7 @@ class Business {
 	/**
 		 * Set the state.
 		 * @param string        $state
-		 */
+	*/
 	public function set_state( string $state ) {
 		return $this->_set_data( 'state', $state, true );
 	}
@@ -248,7 +296,7 @@ class Business {
 	/**
 		 * Get the postcode.
 		 * @return string
-		 */
+	*/
 	public function get_postcode(): string {
 		return $this->_get_data( 'postcode', true );
 	}
@@ -256,7 +304,7 @@ class Business {
 	/**
 		 * Set the postcode.
 		 * @param string        $postcode
-		 */
+	*/
 	public function set_postcode( string $postcode ) {
 		return $this->_set_data( 'postcode', $postcode, true );
 	}
@@ -264,7 +312,7 @@ class Business {
 	/**
 		 * Get the hours.
 		 * @return array
-		 */
+	*/
 	public function get_hours(): array {
 		$data = $this->_get_data( 'hours', true, true,
 			[
@@ -272,14 +320,14 @@ class Business {
 				'end',
 				'24_hours',
 				'days'
-			] );
+		] );
 		return $data == '' ? [] : $data;
 	}
 
 	/**
 		 * Set the hours.
 		 * @param array         $hours
-		 */
+	*/
 	public function set_hours( array $hours ) {
 		return $this->_set_data( 'hours', $hours, true, true );
 	}
@@ -287,7 +335,7 @@ class Business {
 	/**
 		 * Get the business_location.
 		 * @return array
-		 */
+	*/
 	public function get_business_location(): ?array {
 		$data = $this->_get_data( 'set_business_location', true );
 		if( !$data || !is_array($data) ) {
@@ -299,7 +347,7 @@ class Business {
 	/**
 		 * Set the business_location.
 		 * @param array         $business_location
-		 */
+	*/
 	public function set_business_location( array $business_location ) {
 		return $this->_set_data( 'set_business_location', $business_location, true );
 	}
@@ -307,7 +355,7 @@ class Business {
 	/**
 		 * Get the gallery.
 		 * @return array
-		 */
+	*/
 	public function get_gallery(): ?array {
 		$data = $this->_get_data( 'gallery', true );
 		if( !$data || !is_array($data) ) {
@@ -319,14 +367,14 @@ class Business {
 	/**
 		 * Set the gallery.
 		 * @param array         $gallery
-		 */
+	*/
 	public function set_gallery( array $gallery ) {
 		return $this->_set_data( 'gallery', $gallery, true );
 	}
 
 	/**
 		 * Commit the staged changes to the database.
-		 */
+	*/
 	public function save(): ?\WP_Error {
 		// Basically:
 		// 1. Create $data array with [...$builtin_keys, 'meta_input' => ...$non_builtin_keys ]
@@ -363,10 +411,10 @@ class Business {
 			],
 			\array_filter( $this->_staged_changes['post_fields'], function($key) use ($builtin_keys) {
 				return \in_array($key, $builtin_keys);
-			}, ARRAY_FILTER_USE_KEY ),
+				}, ARRAY_FILTER_USE_KEY ),
 			['meta_input' => \array_filter( $this->_staged_changes['post_fields'], function($key) use ($builtin_keys) {
 				return !\in_array($key, $builtin_keys);
-			}, ARRAY_FILTER_USE_KEY )]
+				}, ARRAY_FILTER_USE_KEY )]
 		);
 
 		\abd_log( 'SAVING POST DATA: ' . print_r( $post_data, true ) );

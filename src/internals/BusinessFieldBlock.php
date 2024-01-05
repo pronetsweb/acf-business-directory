@@ -92,14 +92,32 @@ class BusinessFieldBlock extends Base {
 		}
 	}
 
-	protected function render_address() {
+	protected function render_contact($content, $field) {
+		$business = $this->get_business();
+		$value = '';
+		switch( $field ) {
+			case 'email':
+				$value = $business->get_email();
+				break;
+			case 'phone':
+				$value = $business->get_phone();
+				break;
+			case 'website':
+				$value = $business->get_website();
+				break;
+		}
+		include $this->template_file( 'business-contact.php' );
+	}
+
+	protected function render_address($content) {
 		$business = $this->get_business();
 		include $this->template_file( 'business-address.php' );
 	}
 
-	protected function render_hours() {
+	protected function render_hours($content) {
 		$business = $this->get_business();
 		$hours_sets = $business->get_hours();
+		$has_hours = false;
 
 		// Sort and group the hours for display, Mo - Su.
 		$sorted_hours = [
@@ -113,6 +131,7 @@ class BusinessFieldBlock extends Base {
 		];
 
 		foreach( $hours_sets as $hours_set ) {
+			$has_hours = true;
 			if( $hours_set['24_hours'] ) {
 				foreach( $hours_set['days'] as $day ) {
 					$sorted_hours[$day['value']] = [
@@ -141,12 +160,12 @@ class BusinessFieldBlock extends Base {
 		include $this->template_file( 'business-hours.php' );
 	}
 
-	protected function render_map() {
+	protected function render_map($content) {
 		$business = $this->get_business();
 		include $this->template_file( 'business-map.php' );
 	}
 
-	protected function render_photos() {
+	protected function render_photos($content) {
 		$business = $this->get_business();
 		include $this->template_file( 'business-photos.php' );
 	}
@@ -159,18 +178,22 @@ class BusinessFieldBlock extends Base {
 		ob_start();
 		switch( $block_attributes['select_field'] ) {
 			case 'address':
-				$this->render_address();
+				$this->render_address($content);
 				break;
 			case 'hours':
-				$this->render_hours();
+				$this->render_hours($content);
 				break;
 			case 'map':
-				$this->render_map();
+				$this->render_map($content);
 				break;
 			case 'photos':
-				$this->render_photos();
+				$this->render_photos($content);
 				break;
-
+			case 'email':
+			case 'phone':
+			case 'website':
+				$this->render_contact($content, $block_attributes['select_field']);
+				break;
 		}
 		return '<div class="wp-block-business-field wp-block-business-field-' . $block_attributes['select_field'] . '">' . ob_get_clean() . '</div>';
 	}
