@@ -5,6 +5,7 @@
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 import { useBlockProps } from '@wordpress/block-editor';
+import { InnerBlocks } from '@wordpress/editor';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -15,10 +16,8 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @return {WPElement} Element to render.
  */
-export default function save() {
+export default function Save() {
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'Business Field – hello from the saved content!' }
-		</p>
+		<InnerBlocks.Content/>
 	);
 }
