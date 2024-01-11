@@ -16,8 +16,10 @@
                 }
             }
         ?>
-        <dt><?php echo $day; ?></dt>
-        <dd><?php echo $hours; ?></dd>
+		<div>
+			<dt><?php echo $day; ?></dt>
+			<dd><?php echo $hours; ?></dd>
+		</div>
 <?php endforeach; ?>
     </dl>
 </div>

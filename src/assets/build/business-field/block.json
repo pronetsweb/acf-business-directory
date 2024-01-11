@@ -14,7 +14,13 @@
     "attributes": {
         "select_field": {
             "type": "string",
-            "enum": [ "email", "phone", "website", "address", "hours", "map", "photos" ]
-        }
+            "enum": [ "address", "hours", "map", "photos", "email", "phone", "website", "socials" ]
+        },
+		"link_to_directions": {
+			"type": "boolean"
+		},
+		"link_to_post": {
+			"type": "boolean"
+		}
     }
 }

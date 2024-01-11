@@ -47,10 +47,10 @@ class BusinessFieldBlock extends Base {
 	}
 
 	public function get_business() {
-		if( is_null( $this->_business ) ) {
-			if( get_the_ID() != false ) {
-				$this->_business = new Business( get_the_ID() );
-			}
+		if ( get_the_ID() != false && ( is_null( $this->_business) || get_the_ID() != $this->_business->get_id() ) ) {
+			$this->_business = new Business( get_the_ID() );
+		} else if ( get_the_ID() === false ) {
+			$this->_business = null;
 		}
 		return $this->_business;
 	}
@@ -100,10 +100,14 @@ class BusinessFieldBlock extends Base {
 				$value = $business->get_email();
 				break;
 			case 'phone':
-				$value = $business->get_phone();
+				$value = $business->get_phone('view');
+				$link = $business->try_make_phone_link();
 				break;
 			case 'website':
 				$value = $business->get_website();
+				break;
+			case 'socials':
+				$value = false;
 				break;
 		}
 		include $this->template_file( 'business-contact.php' );
@@ -192,6 +196,7 @@ class BusinessFieldBlock extends Base {
 			case 'email':
 			case 'phone':
 			case 'website':
+			case 'socials':
 				$this->render_contact($content, $block_attributes['select_field']);
 				break;
 		}

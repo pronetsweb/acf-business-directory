@@ -50,13 +50,14 @@ export default function Edit( { attributes: { select_field }, setAttributes } ) 
                             value={ select_field }
                             onChange={ onChangeField }
                             options={[
-                                { label: __('Email', 'acf-business-directory'), value: 'email' },
-                                { label: __('Phone', 'acf-business-directory'), value: 'phone' },
-                                { label: __('Website', 'acf-business-directory'), value: 'website' },
                                 { label: __('Address', 'acf-business-directory'), value: 'address' },
                                 { label: __('Hours', 'acf-business-directory'), value: 'hours' },
                                 { label: __('Map', 'acf-business-directory'), value: 'map' },
                                 { label: __('Gallery', 'acf-business-directory'), value: 'photos' },
+                                { label: __('Email', 'acf-business-directory'), value: 'email' },
+                                { label: __('Phone', 'acf-business-directory'), value: 'phone' },
+                                { label: __('Website', 'acf-business-directory'), value: 'website' },
+                                { label: __('Socials', 'acf-business-directory'), value: 'socials' },
                             ]}
                         />
                 </PanelBody>

@@ -191,8 +191,24 @@ class Business {
 		 * Get the phone number.
 		 * @return string
 	*/
-	public function get_phone(): string {
-		return $this->_get_data( 'phone', true );
+	public function get_phone( $view = 'unformatted' ): string {
+		$phone = $this->_get_data( 'phone', true );
+		if( $view == 'view' && $phone ) {
+			$parse_result = preg_match('/\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})/', $phone, $matches);
+			if( $parse_result == 1 ) {
+				return sprintf("(%s) %s-%s", $matches[1], $matches[2], $matches[3]);
+			}
+		}
+		return $phone;
+	}
+
+	public function try_make_phone_link(): ?string {
+		$phone = $this->_get_data( 'phone', true );
+		$parse_result = preg_match('/\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})/', $phone, $matches);
+		if( $parse_result == 1 ) {
+			return sprintf("tel:+1%s%s%s", $matches[1], $matches[2], $matches[3]);
+		}
+		return null;
 	}
 
 	/**
