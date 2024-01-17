@@ -14,7 +14,7 @@
     "attributes": {
         "select_field": {
             "type": "string",
-            "enum": [ "address", "hours", "map", "photos", "email", "phone", "website", "socials" ]
+            "enum": [ "address", "hours", "map", "photos", "names", "email", "phone", "website", "socials" ]
         },
 		"link_to_directions": {
 			"type": "boolean"

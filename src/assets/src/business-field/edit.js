@@ -5,7 +5,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/editor'; // or wp.editor
-import { SelectControl, PanelRow, PanelBody } from '@wordpress/components';
+import { SelectControl, ToggleControl, PanelRow, PanelBody } from '@wordpress/components';
+
+import { useState } from '@wordpress/element';
 
 /**
  * React hook that is used to mark the block wrapper element.
@@ -33,42 +35,71 @@ import './editor.scss';
  *
  * @return {WPElement} Element to render.
  */
-export default function Edit( { attributes: { select_field }, setAttributes } ) {
-        const blockProps = useBlockProps();
-        const onChangeField = ( new_value ) => {
-            setAttributes( {
-                select_field: new_value
-            } );
-        }
-	// TODO: Support editing / adding marker info (e.g. excerpt)
+export default function Edit( { attributes: { select_field, link_to_directions, link_to_post }, setAttributes } ) {
+	if( typeof link_to_directions === "undefined" ) { link_to_directions = false; }
+	if( typeof link_to_post === "undefined" ) { link_to_post = false; }
+	const blockProps = useBlockProps();
+	const [ linkToDirections, setLinkToDirections ] = useState( link_to_directions );
+	const [ linkToPost, setLinkToPost ] = useState( link_to_post );
+
+	const onChangeField = ( new_value ) => {
+		setAttributes( {
+			select_field: new_value
+		} );
+	}
+
+	const onSetLinkToDirections = () => {
+		setAttributes( {
+			link_to_directions: !link_to_directions
+		} );
+		setLinkToDirections( !link_to_directions );
+	};
+
+	const onSetLinkToPost = () => {
+		setAttributes( {
+			link_to_post: !link_to_post
+		} );
+		setLinkToPost( !link_to_post );
+	}
+
 	return (
-            <>
-            <InspectorControls key="setting">
-                <PanelBody title={ __('Field Settings', 'acf-business-directory') } initialOpen={ true } >
-                        <SelectControl
-                            label={ __('Select Field', 'acf-business-directory') }
-                            value={ select_field }
-                            onChange={ onChangeField }
-                            options={[
-                                { label: __('Address', 'acf-business-directory'), value: 'address' },
-                                { label: __('Hours', 'acf-business-directory'), value: 'hours' },
-                                { label: __('Map', 'acf-business-directory'), value: 'map' },
-                                { label: __('Gallery', 'acf-business-directory'), value: 'photos' },
-                                { label: __('Email', 'acf-business-directory'), value: 'email' },
-                                { label: __('Phone', 'acf-business-directory'), value: 'phone' },
-                                { label: __('Website', 'acf-business-directory'), value: 'website' },
-                                { label: __('Socials', 'acf-business-directory'), value: 'socials' },
-                            ]}
-                        />
-                </PanelBody>
-            </InspectorControls>
-            <div { ...blockProps }>
-					<InnerBlocks />
-                    <ServerSideRender
-                            block="acf-business-directory/business-field"
-                            attributes={ { select_field: select_field } }
-                    />
-            </div>
-            </>
+		<>
+			<InspectorControls key="setting">
+				<PanelBody title={ __('Field Settings', 'acf-business-directory') } initialOpen={ true } >
+					<SelectControl
+						label={ __('Select Field', 'acf-business-directory') }
+						value={ select_field }
+						onChange={ onChangeField }
+						options={[
+							{ label: __('Address', 'acf-business-directory'), value: 'address' },
+							{ label: __('Hours', 'acf-business-directory'), value: 'hours' },
+							{ label: __('Map', 'acf-business-directory'), value: 'map' },
+							{ label: __('Gallery', 'acf-business-directory'), value: 'photos' },
+							{ label: __('Names', 'acf-business-directory'), value: 'name' },
+							{ label: __('Email', 'acf-business-directory'), value: 'email' },
+							{ label: __('Phone', 'acf-business-directory'), value: 'phone' },
+							{ label: __('Website', 'acf-business-directory'), value: 'website' },
+							{ label: __('Socials', 'acf-business-directory'), value: 'socials' },
+						]}
+					/>
+
+					<ToggleControl
+						checked={ linkToDirections }
+						label={ __('Link to directions', 'acf-business-directory') }
+						onChange={ onSetLinkToDirections } />
+					<ToggleControl
+						checked={ linkToPost }
+						label={ __('Link to post', 'acf-business-directory') }
+						onChange={ onSetLinkToPost } />
+				</PanelBody>
+			</InspectorControls>
+			<div { ...blockProps }>
+				<InnerBlocks />
+				<ServerSideRender
+					block="acf-business-directory/business-field"
+					attributes={ { select_field: select_field, link_to_directions: link_to_directions, link_to_post: link_to_post } }
+				/>
+			</div>
+		</>
 	);
 }
