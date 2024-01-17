@@ -101,7 +101,7 @@ class BusinessFieldBlock extends Base {
 				break;
 			case 'phone':
 				$value = $business->get_phone('view');
-				$link = $business->try_make_phone_link();
+				$link = $business->try_make_phone_link( $value );
 				break;
 			case 'website':
 				$value = $business->get_website();

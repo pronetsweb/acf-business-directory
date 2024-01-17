@@ -18,6 +18,10 @@ $abd_debug = new WPBP_Debug( __( 'ACF Business Directory', ABD_TEXTDOMAIN ) );
  * @return void
  */
 function abd_log( string $text ) {
+	if( !isset($GLOBALS['abd_debug']) || !$GLOBALS['abd_debug'] ) {
+		return;
+	}
+
 	global $abd_debug;
 	$abd_debug->log( $text );
 }

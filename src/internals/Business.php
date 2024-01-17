@@ -13,16 +13,6 @@ declare(strict_types=1);
 
 namespace ACF_Business_Directory\Internals;
 
-/** Scoping the custom contacts field refactor:
- * Field should be offered to add one or more contacts to a business. e.g. email, phone, etc. [x]
- * We should provide a variety of preset labels but allow custom ones. [x]
- * Legacy fields will be hidden. [x]
- * Ordering should be by type (e.g. Emails, Phones, Websites)
- * Elements should be reorderable by filter.
- * get_contacts and get_contact_by_type methods should be offered
- * legacy methods will look for an old style, or default to a 'primary' search
- * migrations should be setup in the edit post view to move legacy fields to custom contacts
-
 /**
  * Provides a data model around the Business post type and custom fields.
  */
@@ -40,7 +30,8 @@ class Business {
 	public function __construct( int $post_id = null ) {
 		$this->_staged_changes = [
 			'post_fields' => [],
-			'acf_fields' => []
+			'acf_fields' => [],
+			'acf_repeater_fields' => []
 		];
 		if( \is_null( $post_id ) ) {
 			$this->_post = null;
@@ -93,7 +84,11 @@ class Business {
 		if( !$is_acf ) {
 			$this->_staged_changes['post_fields'][$key] = $value;
 		} else {
-			$this->_staged_changes['acf_fields'][$key] = $value;
+			if( $is_repeater ) {
+				$this->_staged_changes['acf_repeater_fields'][$key] = $value;
+			} else {
+				$this->_staged_changes['acf_fields'][$key] = $value;
+			}
 		}
 	}
 
@@ -166,10 +161,18 @@ class Business {
 	}
 
 	/**
+  	 * Set the contacts for this business.
+	 * @param array				$contacts
+	*/
+	public function set_contacts( array $contacts ) {
+		return $this->_set_data( 'contacts', $contacts, true, true );
+	}
+
+	/**
  		* Get the contacts for this business.
 		* @return array
 	*/
-	public function get_contacts( $filter_type = false ) {
+	public function get_contacts( $view = 'view', $filter_type = false ) {
 		$sort_key = apply_filter( 'acf_bd_contacts_sort_order', array(
 			'email' => 100,
 			'phone' => 120,
@@ -183,6 +186,11 @@ class Business {
 		$named = false || $this->_get_data( 'display_in_order_specified', true );
 
 		$_contacts = $this->_get_data( 'contacts', true, true, [ 'type', 'value_email', 'value_url', 'value', 'custom_label' ] );
+
+		if( $view === 'edit' ) {
+			return $_contacts;
+		}
+
 		$contacts = array_map( function($val) use (&$named) {
 			$type = $val['type'][0];
 			$label = trim($val['custom_label']) == '' ? $type : trim($custom_label);
@@ -234,6 +242,7 @@ class Business {
 	}
 
 	/**
+		 @deprecated
 		 * Get the email address.
 		 * @return string
 	*/
@@ -242,14 +251,16 @@ class Business {
 	}
 
 	/**
+		 @deprecated
 		 * Set the email address.
 		 * @param string        $email
 	*/
 	public function set_email( string $email ) {
-		return $this->_set_data( 'email', $email, true );
+		return;
 	}
 
 	/**
+		 @deprecated
 		 * Get the phone number.
 		 * @return string
 	*/
@@ -264,8 +275,7 @@ class Business {
 		return $phone;
 	}
 
-	public function try_make_phone_link(): ?string {
-		$phone = $this->_get_data( 'phone', true );
+	public static function try_make_phone_link( $phone ): ?string {
 		$parse_result = preg_match('/\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})/', $phone, $matches);
 		if( $parse_result == 1 ) {
 			return sprintf("tel:+1%s%s%s", $matches[1], $matches[2], $matches[3]);
@@ -274,14 +284,16 @@ class Business {
 	}
 
 	/**
+		 @deprecated
 		 * Set the phone number.
 		 * @param string        $phone
 	*/
 	public function set_phone( string $phone ) {
-		return $this->_set_data( 'phone', $phone, true );
+		return;
 	}
 
 	/**
+		 @deprecated
 		 * Get the website URL.
 		 * @return string
 	*/
@@ -290,11 +302,12 @@ class Business {
 	}
 
 	/**
+		 @deprecated
 		 * Set the website URL.
 		 * @param string        $website
 	*/
 	public function set_website( string $website ) {
-		return $this->_set_data( 'website', $website, true );
+		return;
 	}
 
 	/**
@@ -497,7 +510,11 @@ class Business {
 
 		\abd_log( 'SAVING POST DATA: ' . print_r( $post_data, true ) );
 
-		$post_id = \wp_insert_post( $post_data, true );
+		if($post_data['ID'] == 0) {
+			$post_id = \wp_insert_post( $post_data, true );
+		} else {
+			$post_id = \wp_update_post( $post_data, true );
+		}
 		if( \is_wp_error( $post_id ) ) {
 			\abd_log( 'INSERT POST ERROR: ' . implode( "\r\n", $post_id->get_error_messages() ) );
 			return $post_id;
@@ -518,6 +535,22 @@ class Business {
 		}
 
 		$this->_staged_changes['acf_fields'] = \array_filter( $this->_staged_changes['acf_fields'],
+			function( $key ) use ($errors) {
+				return \in_array( $key, $errors );
+			}, ARRAY_FILTER_USE_KEY
+		);
+
+		\abd_log('SAVING ACF REPEATER FIELDS: ' . print_r( $this->_staged_changes['acf_repeater_fields'], true ));
+		foreach( $this->_staged_changes['acf_repeater_fields'] as $key => $values ) {
+			foreach( $values as $row ) {
+				$result = add_row( $key, $row, $this->_post->ID );
+				if( !$result ) {
+					$errors[] = $key;
+				}
+			}
+		}
+
+		$this->_staged_changes['acf_repeater_fields'] = \array_filter( $this->_staged_changes['acf_repeater_fields'],
 			function( $key ) use ($errors) {
 				return \in_array( $key, $errors );
 			}, ARRAY_FILTER_USE_KEY
