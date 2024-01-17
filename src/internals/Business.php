@@ -13,6 +13,16 @@ declare(strict_types=1);
 
 namespace ACF_Business_Directory\Internals;
 
+/** Scoping the custom contacts field refactor:
+ * Field should be offered to add one or more contacts to a business. e.g. email, phone, etc. [x]
+ * We should provide a variety of preset labels but allow custom ones. [x]
+ * Legacy fields will be hidden. [x]
+ * Ordering should be by type (e.g. Emails, Phones, Websites)
+ * Elements should be reorderable by filter.
+ * get_contacts and get_contact_by_type methods should be offered
+ * legacy methods will look for an old style, or default to a 'primary' search
+ * migrations should be setup in the edit post view to move legacy fields to custom contacts
+
 /**
  * Provides a data model around the Business post type and custom fields.
  */
@@ -153,6 +163,58 @@ class Business {
 	*/
 	public function set_content( string $content ) {
 		return $this->_set_data( 'post_content', $content );
+	}
+
+	/**
+ 		* Get the contacts for this business.
+		* @return array
+	*/
+	public function get_contacts( $filter_type = false ) {
+		$sort_key = apply_filter( 'acf_bd_contacts_sort_order', array(
+			'email' => 100,
+			'phone' => 120,
+			'cell' => 130,
+			'website' => 150,
+			'facebook' => 170,
+			'instagram' => 180,
+			'x' => 190,
+		) );
+
+		$named = false || $this->_get_data( 'display_in_order_specified', true );
+
+		$_contacts = $this->_get_data( 'contacts', true, true, [ 'type', 'value_email', 'value_url', 'value', 'custom_label' ] );
+		$contacts = array_map( function($val) use (&$named) {
+			$type = $val['type'][0];
+			$label = trim($val['custom_label']) == '' ? $type : trim($custom_label);
+			$named = !$named ? $type == 'name' : true;
+			switch( $type ) {
+				case 'email':
+					return [ 'type' => $val['type'][1], 'value' => $val['value_email'], 'label' => $label ];
+				case 'website':
+					return [ 'type' => $val['type'][1], 'value' => $val['value_url'], 'label' => $label ];
+				default:
+					return [ 'type' => $val['type'][1], 'value' => $val['value'], 'label' => $label ];
+			}
+		}, $_contacts );
+
+		if( $filter_type ) {
+			$contacts = array_filter( $contacts, function($val) use ($filter_type) {
+				return $val['type'] == $filter_type;
+			} );
+		}
+
+		$named = apply_filter( 'acf_bd_contacts_named', $named );
+
+		if( !$named ) {
+			$contacts = uasort( $contacts, function( $val ) use ( $sort_key ) {
+				if(!isset($sort_key[$val['type']])) {
+					return 9999;
+				}
+				return $sort_key[$val['type']];
+			} );
+		}
+
+		return $contacts;
 	}
 
 	/**

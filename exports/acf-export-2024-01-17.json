@@ -64,9 +64,7 @@
                             "facebook": "Facebook",
                             "x": "X (Twitter)",
                             "instagram": "Instagram",
-                            "email_custom": "Email (Custom)",
-                            "phone_custom": "Phone (Custom)",
-                            "website_custom": "Website (Custom)"
+                            "name": "Name"
                         },
                         "default_value": "email",
                         "return_format": "array",
@@ -195,6 +193,13 @@
                                     "operator": "==",
                                     "value": "phone_custom"
                                 }
+                            ],
+                            [
+                                {
+                                    "field": "field_65a77ed3cf86f",
+                                    "operator": "==",
+                                    "value": "name"
+                                }
                             ]
                         ],
                         "wrapper": {
@@ -231,6 +236,26 @@
                         "parent_repeater": "field_65a77e54cf86d"
                     }
                 ]
+            },
+            {
+                "key": "field_65a78b0e3b656",
+                "label": "Display In Order Specified?",
+                "name": "display_in_order_specified",
+                "aria-label": "",
+                "type": "true_false",
+                "instructions": "If not specified, fields are displayed in order based on type (e.g. emails before phone numbers, before websites). \r\n\r\nIf \"Name\" fields are present this option will be applied regardless of your choice.\r\n\r\nFor usability, recommend only using this option if absolutely necessary. Inconsistent contact ordering between listings can be jarring.",
+                "required": 0,
+                "conditional_logic": 0,
+                "wrapper": {
+                    "width": "",
+                    "class": "",
+                    "id": ""
+                },
+                "message": "Display contact fields in order specified",
+                "default_value": 0,
+                "ui": 0,
+                "ui_on_text": "",
+                "ui_off_text": ""
             },
             {
                 "key": "field_654660041fab9",

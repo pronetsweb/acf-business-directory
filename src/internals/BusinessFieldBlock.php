@@ -175,6 +175,8 @@ class BusinessFieldBlock extends Base {
 	}
 
 	public function render( $block_attributes, $content ) {
+		$this->_business = null;
+
 		if( !isset( $block_attributes['select_field'] ) || empty( $block_attributes['select_field'] ) ) {
 			$block_attributes['select_field'] = 'address';
 		}
