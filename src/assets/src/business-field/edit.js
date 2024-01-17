@@ -76,9 +76,9 @@ export default function Edit( { attributes: { select_field, link_to_directions, 
 							{ label: __('Map', 'acf-business-directory'), value: 'map' },
 							{ label: __('Gallery', 'acf-business-directory'), value: 'photos' },
 							{ label: __('Names', 'acf-business-directory'), value: 'name' },
-							{ label: __('Email', 'acf-business-directory'), value: 'email' },
-							{ label: __('Phone', 'acf-business-directory'), value: 'phone' },
-							{ label: __('Website', 'acf-business-directory'), value: 'website' },
+							{ label: __('Emails', 'acf-business-directory'), value: 'email' },
+							{ label: __('Phones', 'acf-business-directory'), value: 'phone' },
+							{ label: __('Websites', 'acf-business-directory'), value: 'website' },
 							{ label: __('Socials', 'acf-business-directory'), value: 'socials' },
 						]}
 					/>

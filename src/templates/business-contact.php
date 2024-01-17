@@ -1,28 +1,40 @@
-<?php if($value == '') { return; } ?>
+<?php use ACF_Business_Directory\Internals\Business; ?>
+<?php if(!is_array($values) || count($values) == 0) { return; } ?>
 <?php echo $content; ?>
-<?php
-
-switch($field) {
-	case 'email':
-		echo '<div><a href="' . esc_attr('mailto:' . $value) . '">' . esc_html($value) . '</a></div>';
-		break;
-	case 'phone':
-		if( $link !== false ) {
-			echo '<div><a href="' . esc_attr($link) . '">' . esc_html($value) . '</a></div>';
-		} else {
-			echo '<div>' . esc_html($value) . '</div>';
-		}
-		break;
-	case 'website':
-		echo '<a href="' . esc_attr($value) . '" target="_blank" rel="nofollow">' . esc_html($value) . '</a>';
-		break;
-	case 'social':
-		echo '<ul>';
-		foreach( $value as $link ) {
-			echo '<li class="' . esc_attr($link['class']) . '"><a href="' . esc_attr($link['href']) . '">' . $link['text'] . '</a></li>';
-		}
-		echo '</ul>';
-		break;
-}
-
-?>
+<dl>
+<?php foreach( $values as $value ) : ?>
+	<?php
+	$label = isset($value['label']) && $value['label'] != '' ? esc_html($value['label']) : '';
+	$content = '';
+	$link = null;
+	switch( $value['type'] ) {
+		case 'names':
+			$content = esc_html($value['value']);
+			break;
+		case 'email':
+			$content = esc_html($value['value']);
+			$link = esc_attr('mailto:' . $value['value']);
+			break;
+		case 'phone':
+			$content = esc_html(Business::try_format_phone( $value['value'] ));
+			$link = esc_attr(Business::try_make_phone_link( $value['value'] ));
+			break;
+		case 'website':
+		case 'socials':
+			$content = esc_html(Business::try_format_url( $value['value'], $value['type'] ));
+			$link = esc_attr(Business::try_make_valid_url( $value['value'], $value['type'] ));
+			break;
+	}
+	?>
+	<div class="field-<?php echo esc_attr( $value['type'] ) ?>">
+		<dt><?php echo $label; ?></dt>
+		<dd>
+		<?php if($link) : ?>
+			<a href="<?php echo $link; ?>"><?php echo $content; ?></a>
+		<?php else : ?>
+			<?php echo $content; ?>
+		<?php endif; ?>
+		</dd>
+	</div>
+<?php endforeach ?>
+</dl>

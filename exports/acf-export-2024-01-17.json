@@ -59,7 +59,6 @@
                         "choices": {
                             "email": "Email",
                             "phone": "Phone",
-                            "cell": "Phone (Cell)",
                             "website": "Website",
                             "facebook": "Facebook",
                             "x": "X (Twitter)",

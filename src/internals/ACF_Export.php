@@ -31,8 +31,6 @@ class ACF_Export extends Base {
 
 		\abd_log("Initialized ACF_Export...");
 
-
-
 		add_action( 'acf/include_fields', function() {
 			if ( ! function_exists( 'acf_add_local_field_group' ) ) {
 				return;
@@ -98,7 +96,6 @@ class ACF_Export extends Base {
 								'choices' => array(
 									'email' => 'Email',
 									'phone' => 'Phone',
-									'cell' => 'Phone (Cell)',
 									'website' => 'Website',
 									'facebook' => 'Facebook',
 									'x' => 'X (Twitter)',

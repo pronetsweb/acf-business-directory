@@ -172,8 +172,8 @@ class Business {
  		* Get the contacts for this business.
 		* @return array
 	*/
-	public function get_contacts( $view = 'view', $filter_type = false ) {
-		$sort_key = apply_filter( 'acf_bd_contacts_sort_order', array(
+	public function get_contacts( $filter_type = false, $view = 'view', $custom_labels_only = true ) {
+		$sort_key = \apply_filters( 'acf_bd_contacts_sort_order', array(
 			'email' => 100,
 			'phone' => 120,
 			'cell' => 130,
@@ -191,35 +191,36 @@ class Business {
 			return $_contacts;
 		}
 
-		$contacts = array_map( function($val) use (&$named) {
-			$type = $val['type'][0];
-			$label = trim($val['custom_label']) == '' ? $type : trim($custom_label);
+		$contacts = \array_map( function($val) use (&$named) {
+			$type = $val['type']["label"];
+			$label = trim($val['custom_label']) == '' && $custom_labels_only ? $type : trim($val['custom_label']);
 			$named = !$named ? $type == 'name' : true;
-			switch( $type ) {
+			switch( $val['type']['value'] ) {
 				case 'email':
-					return [ 'type' => $val['type'][1], 'value' => $val['value_email'], 'label' => $label ];
+					return [ 'type' => $val['type']['value'], 'value' => $val['value_email'], 'label' => $label ];
 				case 'website':
-					return [ 'type' => $val['type'][1], 'value' => $val['value_url'], 'label' => $label ];
+					return [ 'type' => $val['type']['value'], 'value' => $val['value_url'], 'label' => $label ];
 				default:
-					return [ 'type' => $val['type'][1], 'value' => $val['value'], 'label' => $label ];
+					return [ 'type' => $val['type']['value'], 'value' => $val['value'], 'label' => $label ];
 			}
 		}, $_contacts );
 
 		if( $filter_type ) {
-			$contacts = array_filter( $contacts, function($val) use ($filter_type) {
+			$contacts = \array_filter( $contacts, function($val) use ($filter_type) {
 				return $val['type'] == $filter_type;
 			} );
 		}
 
-		$named = apply_filter( 'acf_bd_contacts_named', $named );
+		$named = \apply_filters( 'acf_bd_contacts_named', $named );
 
 		if( !$named ) {
-			$contacts = uasort( $contacts, function( $val ) use ( $sort_key ) {
+			\uasort( $contacts, function( $val ) use ( $sort_key ) {
 				if(!isset($sort_key[$val['type']])) {
 					return 9999;
 				}
 				return $sort_key[$val['type']];
 			} );
+			$contacts = \array_reverse( $contacts );
 		}
 
 		return $contacts;
@@ -275,12 +276,32 @@ class Business {
 		return $phone;
 	}
 
+	public static function try_format_phone( string $phone ): string {
+		$parse_result = preg_match('/\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})/', $phone, $matches);
+		if( $parse_result == 1 ) {
+			return sprintf("(%s) %s-%s", $matches[1], $matches[2], $matches[3]);
+		}
+		return $phone;
+	}
+
 	public static function try_make_phone_link( $phone ): ?string {
 		$parse_result = preg_match('/\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})/', $phone, $matches);
 		if( $parse_result == 1 ) {
 			return sprintf("tel:+1%s%s%s", $matches[1], $matches[2], $matches[3]);
 		}
 		return null;
+	}
+
+	public static function try_format_url( $value, $type ) {
+		return str_replace( 'http://', '', str_replace( 'https://', '', $value ) );
+	}
+
+
+	public static function try_make_valid_url( $value, $type ) {
+		if( !str_contains( $value, '://' ) ) {
+			return 'https://' . $value;
+		}
+		return $value;
 	}
 
 	/**

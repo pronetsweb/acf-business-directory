@@ -94,20 +94,22 @@ class BusinessFieldBlock extends Base {
 
 	protected function render_contact($content, $field) {
 		$business = $this->get_business();
-		$value = '';
+		$values = [];
 		switch( $field ) {
 			case 'email':
-				$value = $business->get_email();
+				$values = $business->get_contacts( 'email' );
+				break;
+			case 'names':
+				$values = $business->get_contacts( 'name' );
 				break;
 			case 'phone':
-				$value = $business->get_phone('view');
-				$link = $business->try_make_phone_link( $value );
+				$values = $business->get_contacts( 'phone' );
 				break;
 			case 'website':
-				$value = $business->get_website();
+				$values = $business->get_contacts( 'website' );
 				break;
 			case 'socials':
-				$value = false;
+				$values = array_merge($business->get_contacts( 'facebook' ), $business->get_contacts( 'x' ), $business->get_contacts( 'instagram' ));
 				break;
 		}
 		include $this->template_file( 'business-contact.php' );
@@ -199,6 +201,7 @@ class BusinessFieldBlock extends Base {
 			case 'phone':
 			case 'website':
 			case 'socials':
+			case 'names':
 				$this->render_contact($content, $block_attributes['select_field']);
 				break;
 		}
