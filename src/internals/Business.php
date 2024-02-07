@@ -191,8 +191,12 @@ class Business {
 			return $_contacts;
 		}
 
+		if( !$_contacts ) {
+			return array();
+		}
+
 		$contacts = \array_map( function($val) use (&$named) {
-			$type = $val['type']["label"];
+			$type = $val['type']['label'];
 			$label = trim($val['custom_label']) == '' && $custom_labels_only ? $type : trim($val['custom_label']);
 			$named = !$named ? $type == 'name' : true;
 			switch( $val['type']['value'] ) {
@@ -419,6 +423,10 @@ class Business {
 	*/
 	public function set_postcode( string $postcode ) {
 		return $this->_set_data( 'postcode', $postcode, true );
+	}
+
+	public function is_address_empty() {
+		return trim($this->get_address_line_1() . $this->get_address_line_2() . $this->get_city() . $this->get_state() . $this->get_postcode()) != '';
 	}
 
 	/**

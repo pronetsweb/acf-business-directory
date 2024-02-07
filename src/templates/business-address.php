@@ -1,4 +1,6 @@
+<?php if( !$business->is_address_empty() ) : ?>
 <?php echo $content; ?>
+<?php endif ?>
 <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
     <?php if( $business->get_address_line_1() != '' || $business->get_address_line_2() != '' ) : ?>
     <span itemprop="streetAddress">

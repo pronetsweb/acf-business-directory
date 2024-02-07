@@ -11,6 +11,9 @@
 		?>
 <p><strong><?php echo apply_filters('acf_bd_business_map_marker_title', esc_html($business->get_title())); ?></strong></p>
 <p><?php echo apply_filters('acf_bd_business_map_marker_excerpt', esc_html($business->get_excerpt())); ?></p>
+<?php if( $directions_link !== false ) : ?>
+<p><?php echo apply_filters('acf_bd_business_map_marker_link', esc_html(sprintf($directions_link, __( 'Get Directions', 'acf-business-directory' )))); ?></p>
+<?php endif; ?>
 		<?php
 		$marker_html = ob_get_clean();
 

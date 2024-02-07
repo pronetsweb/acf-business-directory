@@ -1,19 +1,4 @@
 <?php // Taken from example at: https://www.advancedcustomfields.com/resources/google-map/ ?>
-<?php // TODO: Move to own script / styles that are dynamically loaded. ?>
-<?php if(!ACF_Business_Directory\Internals\BusinessFieldBlock::is_map_script_initialized()): ?>
-<style type="text/css">
-.acf-bd-map {
-    width: 100%;
-    height: 400px;
-    border: #ccc solid 1px;
-    margin: 20px 0;
-}
-
-// Fixes potential theme css conflict.
-.acf-bd-map img {
-   max-width: inherit !important;
-}
-</style>
 <script src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr(ACF_BD_GOOGLE_MAPS_BROWSER_API_KEY); ?>&callback=Function.prototype"></script>
 <script type="text/javascript">
 (function() {
@@ -116,5 +101,3 @@
 	});
 })();
 </script>
-<?php ACF_Business_Directory\Internals\BusinessFieldBlock::set_map_script_initialized(true); ?>
-<?php endif; ?>

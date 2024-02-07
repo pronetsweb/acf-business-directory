@@ -18,3 +18,7 @@
 function abd_get_settings() {
 	return apply_filters( 'abd_get_settings', get_option( ABD_TEXTDOMAIN . '-settings' ) );
 }
+
+function abd_google_maps_init() {
+	require ABD_PLUGIN_ROOT . 'templates/helpers/google-maps-init.php';
+}
