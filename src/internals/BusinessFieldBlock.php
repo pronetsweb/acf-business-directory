@@ -83,7 +83,7 @@ class BusinessFieldBlock extends Base {
 		}
 	}
 
-	protected function render_contact($content, $field) {
+	protected function render_contact($content, $field, $link = false) {
 		$business = $this->get_business();
 		$values = [];
 		switch( $field ) {
@@ -106,12 +106,12 @@ class BusinessFieldBlock extends Base {
 		include $this->template_file( 'business-contact.php' );
 	}
 
-	protected function render_address($content) {
+	protected function render_address($content, $link = false) {
 		$business = $this->get_business();
 		include $this->template_file( 'business-address.php' );
 	}
 
-	protected function render_hours($content) {
+	protected function render_hours($content, $link = false) {
 		$business = $this->get_business();
 		$hours_sets = $business->get_hours();
 		$has_hours = false;
@@ -179,29 +179,46 @@ class BusinessFieldBlock extends Base {
 		$directions_link = false;
 
 		if( isset( $block_attributes['link_to_directions'] ) && $block_attributes['link_to_directions'] && !$business->is_address_empty() ) {
-			$link = '<a class="business-field-link" href="https://maps.google.com/?q=' . urlencode(sprintf('%s %s %s %s', $business->get_address_line_1(), $business->get_city(), $business->get_state(), $business->get_postcode())) . '">%s</a>';
-			$directions_link = $link;
+			$link = '<a class="business-field-link" href="https://maps.google.com/?q=' . esc_attr(urlencode(sprintf('%s %s %s %s', $business->get_address_line_1(), $business->get_city(), $business->get_state(), $business->get_postcode()))) . '"';
+			$directions_link = $link; // Used for render_map
 		}
 
 		if( isset( $block_attributes['link_to_post'] ) && $block_attributes['link_to_post'] ) {
-			$link = '<a class="business-field-link" href="' . urlencode(get_permalink()) . '">%s</a>';
+			$link = '<a class="business-field-link" href="' . esc_attr(get_permalink()) . '"';
 		}
+
+		if( $link ) {
+			$link = str_replace( '%', '%%', $link );
+		}
+
+		$extra_attr = apply_filters( 'acf_bd_business_link_attr', 'target="_blank"' );
+
+		if( $link ) {
+			$link .= $extra_attr . '>%s</a>';
+			if( $directions_link ) {
+				$directions_link .= ' ' . $extra_attr . '>%s</a>';
+			}
+		}
+
+		if( $this->is_in_editor() ) {
+			$link = '<a href="#">%s</a>';
+		}
+
+		$link = $link === false ? '%s' : $link;
 
 		ob_start();
 		switch( $block_attributes['select_field'] ) {
 			case 'address':
-				$this->render_address($content);
+				$this->render_address($content, $link);
 				break;
 			case 'hours':
-				$this->render_hours($content);
+				$this->render_hours($content, $link);
 				break;
 			case 'map':
 				$this->render_map($content, $directions_link);
-				$link = false;
 				break;
 			case 'photos':
 				$this->render_photos($content);
-				$link = '%s';
 				break;
 			case 'email':
 			case 'phone':
@@ -209,12 +226,9 @@ class BusinessFieldBlock extends Base {
 			case 'socials':
 			case 'names':
 				$this->render_contact($content, $block_attributes['select_field']);
-				$link = '%s';
 				break;
 		}
-
-		$link = $link === false ? '%s' : $link;
-		return '<div class="wp-block-business-field wp-block-business-field-' . $block_attributes['select_field'] . '">' . sprintf( $link, ob_get_clean() ) . '</div>';
+		return '<div class="wp-block-business-field wp-block-business-field-' . $block_attributes['select_field'] . '">' . ob_get_clean() . '</div>';
 	}
 
 }

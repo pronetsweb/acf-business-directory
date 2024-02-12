@@ -1,6 +1,7 @@
 <?php if( !$business->is_address_empty() ) : ?>
 <?php echo $content; ?>
 <?php endif ?>
+<?php ob_start(); ?>
 <div itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
     <?php if( $business->get_address_line_1() != '' || $business->get_address_line_2() != '' ) : ?>
     <span itemprop="streetAddress">
@@ -22,5 +23,5 @@
     <?php if( $business->get_postcode() != '' ) : ?>
     <span itemprop="postalCode"><?php echo esc_html( $business->get_postcode() ); ?></span>
     <?php endif; ?>
-
 </div>
+<?php printf( $link, ob_get_clean() ) ?>

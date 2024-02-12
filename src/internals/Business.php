@@ -195,7 +195,7 @@ class Business {
 			return array();
 		}
 
-		$contacts = \array_map( function($val) use (&$named) {
+		$contacts = \array_map( function($val) use (&$named, $custom_labels_only) {
 			$type = $val['type']['label'];
 			$label = trim($val['custom_label']) == '' && $custom_labels_only ? $type : trim($val['custom_label']);
 			$named = !$named ? $type == 'name' : true;
@@ -426,7 +426,7 @@ class Business {
 	}
 
 	public function is_address_empty() {
-		return trim($this->get_address_line_1() . $this->get_address_line_2() . $this->get_city() . $this->get_state() . $this->get_postcode()) != '';
+		return trim($this->get_address_line_1() . $this->get_address_line_2() . $this->get_city() . $this->get_state() . $this->get_postcode()) == '';
 	}
 
 	/**

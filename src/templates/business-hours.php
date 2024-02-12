@@ -1,5 +1,6 @@
 <?php if(!$has_hours) { return; } ?>
 <?php echo $content; ?>
+<?php ob_start(); ?>
 <div class="hours">
     <dl class="hours-list">
 <?php foreach( $sorted_hours as $day => $_hours ) : ?>
@@ -23,3 +24,4 @@
 <?php endforeach; ?>
     </dl>
 </div>
+<?php printf( $link, ob_get_clean() ) ?>

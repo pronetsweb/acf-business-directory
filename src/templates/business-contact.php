@@ -6,6 +6,7 @@
 	<?php
 	$label = isset($value['label']) && $value['label'] != '' ? esc_html($value['label']) : '';
 	$content = '';
+	$extra_attr = '';
 	$link = null;
 	switch( $value['type'] ) {
 		case 'names':
@@ -23,14 +24,16 @@
 		case 'socials':
 			$content = esc_html(Business::try_format_url( $value['value'], $value['type'] ));
 			$link = esc_attr(Business::try_make_valid_url( $value['value'], $value['type'] ));
+			$extra_attr = esc_attr(apply_filters( 'acf_bd_business_link_attr', 'rel="nofollow" target="_blank"' ));
 			break;
 	}
+
 	?>
 	<div class="field-<?php echo esc_attr( $value['type'] ) ?>">
 		<dt><?php echo $label; ?></dt>
 		<dd>
 		<?php if($link) : ?>
-			<a href="<?php echo $link; ?>"><?php echo $content; ?></a>
+			<a href="<?php echo $link; ?>" <?php echo $extra_attr ?>><?php echo $content; ?></a>
 		<?php else : ?>
 			<?php echo $content; ?>
 		<?php endif; ?>
