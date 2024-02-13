@@ -19,20 +19,17 @@ import './style.scss';
  */
 import Edit from './edit';
 import Save from './save';
-import metadata from './block.json';
-
-
-// TODO: Needs to be a dynamic block
 
 /**
  * Every block starts by registering a new block type definition.
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-registerBlockType( metadata.name, {
+registerBlockType( "acf-business-directory/business-field", {
 	/**
 	 * @see ./edit.js
 	 */
+	title: "Business Field",
 	edit: Edit,
 	save: Save
 } );

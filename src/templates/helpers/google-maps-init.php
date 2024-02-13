@@ -1,8 +1,17 @@
 <?php // Taken from example at: https://www.advancedcustomfields.com/resources/google-map/ ?>
-<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo esc_attr(ACF_BD_GOOGLE_MAPS_BROWSER_API_KEY); ?>&callback=Function.prototype"></script>
+<script>
+  (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+	key: "<?php echo ACF_BD_GOOGLE_MAPS_BROWSER_API_KEY; ?>",
+    v: "weekly",
+    // Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
+    // Add other bootstrap parameters as needed, using camel case.
+  });
+</script>
 <script type="text/javascript">
 (function() {
-	function initMap( el ) {
+	async function initMap( el ) {
+		const { Map } = await google.maps.importLibrary("maps");
+		const { Marker } = await google.maps.importLibrary("marker");
 
 		// Find marker elements within map.
 		const markers = Array.from(el.childNodes).filter((node) => node.nodeType == Node.ELEMENT_NODE && node.matches('.marker'));
@@ -12,12 +21,12 @@
 			zoom        : ('zoom' in el.dataset ? parseInt(el.dataset.zoom) : 16),
 			mapTypeId   : google.maps.MapTypeId.ROADMAP
 		};
-		const map = new google.maps.Map( el, mapArgs );
+		const map = new Map( el, mapArgs );
 
 		// Add markers.
 		map.markers = [];
 		markers.forEach(function(node){
-			initMarker( node, map );
+			initMarker( node, map, Marker );
 		});
 
 		// Center map based on markers.
@@ -27,8 +36,7 @@
 		return map;
 	}
 
-	function initMarker( markerElement, map ) {
-
+	function initMarker( markerElement, map, Marker ) {
 		// Get position from marker.
 		const lat = markerElement.dataset.lat;
 		const lng = markerElement.dataset.lng;
@@ -38,7 +46,7 @@
 		};
 
 		// Create marker instance.
-		const marker = new google.maps.Marker({
+		const marker = new Marker({
 			position : latLng,
 			map: map
 		});
@@ -72,8 +80,7 @@
 	 * @param   object The map instance.
 	 * @return  void
 	 */
-	function centerMap( map ) {
-
+	async function centerMap( map ) {
 		// Create map boundaries from all map markers.
 		var bounds = new google.maps.LatLngBounds();
 		map.markers.forEach(function( marker ){

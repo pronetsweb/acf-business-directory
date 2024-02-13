@@ -9,8 +9,8 @@
     "version": "1.0.0",
     "textdomain": "acf-business-directory",
     "script": "file:./index.js",
-    "editorStyle": "file:./index.css",
-    "style": [ "file:./style.css", "business-field-style" ],
+    "editorStyle": "file:./style-index.css",
+    "style": [ "file:./style-index.css", "business-field-style" ],
     "attributes": {
         "select_field": {
             "type": "string",

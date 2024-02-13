@@ -26,6 +26,12 @@ class Enqueue extends Base {
 	public function initialize() {
 		parent::initialize();
 
+		$scripts = Enqueue::enqueue_scripts();
+		foreach( $scripts as $handle => $script ) {
+			$script['deps'] = !isset($script['deps']) ? array() : $script['deps'];
+			$script['args'] = !isset($script['args']) ? array() : $script['args'];
+			wp_enqueue_script( $handle, $script['src'], $script['deps'], ABD_VERSION, $script['args'] );
+		}
 	}
 
 
@@ -49,7 +55,7 @@ class Enqueue extends Base {
 	 * @return array
 	 */
 	public static function enqueue_scripts() {
-		$scripts = array();
+		$scripts = array( 'acf_bd_plugin_public' => [ 'src' => ABD_PLUGIN_ROOT . 'assets/build/plugin-public.js' ] );
 
 		return $scripts;
 	}

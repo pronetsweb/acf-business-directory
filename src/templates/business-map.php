@@ -5,7 +5,6 @@
 	<?php if ( $this->is_in_editor() ): ?>
 		<p>Map Will Appear Here.</p>
 	<?php else: ?>
-		<?php require_once "helpers/google-maps-init.php"; ?>
 		<?php
 		ob_start();
 		?>
