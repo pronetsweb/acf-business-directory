@@ -10,7 +10,7 @@
  * Plugin Name:     ACF Business Directory
  * Plugin URI:      @TODO
  * Description:     @TODO
- * Version:         1.1.0
+ * Version:         1.1.1
  * Author:          Zachary Tarvid-Richey
  * Author URI:      https://zachuorice.com
  * Text Domain:     acf-business-directory
@@ -26,7 +26,7 @@ if ( !defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
-define( 'ABD_VERSION', '1.1.0' );
+define( 'ABD_VERSION', '1.1.1' );
 define( 'ABD_TEXTDOMAIN', 'acf-business-directory' );
 define( 'ABD_NAME', 'ACF Business Directory' );
 define( 'ABD_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );

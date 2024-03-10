@@ -179,7 +179,7 @@ class BusinessFieldBlock extends Base {
 		$directions_link = false;
 
 		if( isset( $block_attributes['link_to_directions'] ) && $block_attributes['link_to_directions'] && !$business->is_address_empty() ) {
-			$link = '<a class="business-field-link" href="https://maps.google.com/?q=' . esc_attr(urlencode(sprintf('%s %s %s %s', $business->get_address_line_1(), $business->get_city(), $business->get_state(), $business->get_postcode()))) . '"';
+			$link = '<a class="business-field-link" href="' . esc_attr('https://maps.google.com/?q=' . urlencode(sprintf('%s %s %s %s', $business->get_address_line_1(), $business->get_city(), $business->get_state(), $business->get_postcode()))) . '"';
 			$directions_link = $link; // Used for render_map
 		}
 

@@ -55,8 +55,7 @@ class Enqueue extends Base {
 	 * @return array
 	 */
 	public static function enqueue_scripts() {
-		$scripts = array( 'acf_bd_plugin_public' => [ 'src' => ABD_PLUGIN_ROOT . 'assets/build/plugin-public.js' ] );
-
+		$scripts = array();
 		return $scripts;
 	}
 

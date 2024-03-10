@@ -43,7 +43,7 @@ class Business {
 		}
 	}
 
-	protected function _get_data( string $key, bool $is_acf = false, bool $is_repeater = false, array $subkeys = [] ) {
+	protected function _get_data( string $key, bool $is_acf = false, bool $is_repeater = false, array $subkeys = [], bool $format_value = true ) {
 		if( isset( $this->_staged_changes[$key] ) ) {
 			return $this->_staged_changes[$key];
 		}
@@ -67,12 +67,12 @@ class Business {
 					\the_row();
 					$_value = [];
 					foreach( $subkeys as $subkey ) {
-						$_value[$subkey] = \get_sub_field( $subkey );
+						$_value[$subkey] = \get_sub_field( $subkey, $format_value );
 					}
 					$value[] = $_value;
 				}
 			} else {
-				$value = \get_field( $key, $this->_post->ID );
+				$value = \get_field( $key, $this->_post->ID, $format_value );
 			}
 			return !is_null( $value ) ? $value : '';
 		}
@@ -477,7 +477,7 @@ class Business {
 		 * @return array
 	*/
 	public function get_gallery(): ?array {
-		$data = $this->_get_data( 'gallery', true );
+		$data = $this->_get_data( 'gallery', true, false, [], false );
 		if( !$data || !is_array($data) ) {
 			return null;
 		}

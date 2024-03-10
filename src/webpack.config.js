@@ -4,7 +4,7 @@ const path = require( 'path' );
 const CopyPlugin = require("copy-webpack-plugin");
 
 const entry = {};
-[ 'plugin-public', 'business-field/index' ].forEach(
+[ 'business-field/index' ].forEach(
 	( script ) =>
 		( entry[ script ] = path.resolve(
 			process.cwd(),
